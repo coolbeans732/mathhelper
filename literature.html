@@ -34,21 +34,105 @@
       font-size: 1em;
       margin-bottom: 20px;
     }
-    input, button {
+    input {
       width: 100%;
       padding: 12px;
       font-size: 1em;
+      border: 2px solid #d94f70;
       border-radius: 10px;
       margin-bottom: 10px;
     }
-    input {
-      border: 2px solid #d94f70;
-    }
     button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
       background-color: #d94f70;
       color: white;
       border: none;
+      border-radius: 10px;
       cursor: pointer;
+      margin-bottom: 10px;
     }
     button:hover {
-      background-color: #c
+      background-color: #c03c5c;
+    }
+    .chat {
+      margin-top: 20px;
+      background: #ffe6ee;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1em;
+      max-height: 400px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+    }
+    .user {
+      font-weight: bold;
+      color: #4a90e2;
+    }
+    .ai {
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Literature Helper</h1>
+    <p>Ask about stories, poems, characters, vocabulary, or text features!</p>
+
+    <input type="text" id="litInput" placeholder="Type your question here...">
+    <button onclick="processLit()">Send</button>
+
+    <div class="chat" id="chatBox"></div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chatBox');
+
+    function processLit() {
+      const input = document.getElementById('litInput').value.trim();
+      if (!input) return;
+
+      addMessage("You", input);
+      const response = getAIResponse(input.toLowerCase());
+      addMessage("AI", response);
+      document.getElementById('litInput').value = '';
+    }
+
+    function addMessage(sender, text) {
+      const message = document.createElement('div');
+      message.className = sender === "You" ? "user" : "ai";
+      message.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      chatBox.appendChild(message);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function getAIResponse(input) {
+      if (input.includes("theme") && input.includes("charlotte")) {
+        return "🕸️ Theme of Charlotte’s Web: Friendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.";
+      } else if (input.includes("poem") && input.includes("friendship")) {
+        return "📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey make the dark feel warm and bright.\nThey cheer you on when skies are gray,\nAnd help your worries float away.";
+      } else if (input.includes("main character") && input.includes("hatchet")) {
+        return "🧍 Main character in Hatchet: Brian Robeson—a brave boy who survives alone in the wild after a plane crash. He learns to use his mind, courage, and a hatchet.";
+      } else if (input.includes("symbolism")) {
+        return "🔍 Symbolism means using objects or actions to stand for something else. Like a heart for love, or a storm for trouble. It helps stories feel deeper.";
+      } else if (input.includes("text feature")) {
+        return "📘 Text features are tools that help you understand nonfiction. They include headings, bold words, captions, diagrams, and sidebars. Each one gives clues or highlights key info.";
+      } else if (input.includes("define") || input.includes("definition")) {
+        const word = input.split("define")[1] || input.split("definition of")[1];
+        if (word) {
+          return `📖 Definition of "${word.trim()}": A simple explanation of what that word means. Try using it in a sentence to remember it!`;
+        } else {
+          return "📖 Try saying 'define' followed by the word you want help with.";
+        }
+      } else if (input.includes("what is a theme")) {
+        return "🎭 A theme is the big idea or message in a story. It’s what the author wants you to think about—like friendship, courage, or change.";
+      } else if (input.includes("what is a character")) {
+        return "🧍 A character is a person, animal, or creature in a story. They do things, feel things, and help the story move forward.";
+      } else {
+        return "📖 I’m still learning! Try asking about a book, poem, character, theme, or vocabulary word.";
+      }
+    }
+  </script>
+</body>
+</html>
