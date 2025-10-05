@@ -60,7 +60,7 @@
       padding: 15px;
       border-radius: 8px;
       font-size: 1.1em;
-      text-align: center;
+      text-align: left;
     }
   </style>
 </head>
@@ -70,7 +70,7 @@
     <p>Type a math question like:<br>
       <code>solve x^2 = 9</code><br>
       <code>make 3x + 2x simpler</code><br>
-      <code>find slope of sin(x)</code><br>
+      <code>how fast is sin(x) changing</code><br>
       <code>what is 3 + 4 * 2</code>
     </p>
 
@@ -83,29 +83,38 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
   <script>
     function processQuery() {
-      const input = document.getElementById('queryInput').value.trim();
+      const input = document.getElementById('queryInput').value.trim().toLowerCase();
       const resultBox = document.getElementById('resultBox');
+      let expr = '';
+      let explanation = '';
+      let output = '';
 
       try {
-        if (input.toLowerCase().startsWith('solve')) {
-          const expr = input.replace('solve', '').trim();
+        if (input.includes('solve')) {
+          expr = input.replace('solve', '').trim();
           const solution = math.solve(expr, 'x');
-          resultBox.textContent = `✅ Answer: ${JSON.stringify(solution)}`;
-        } else if (input.toLowerCase().includes('simpler') || input.toLowerCase().startsWith('make')) {
-          const expr = input.replace(/make|simpler/gi, '').trim();
+          explanation = `To solve this, we find the value of x that makes the equation true.`;
+          output = `✅ Answer: ${JSON.stringify(solution)}\n📘 Explanation: ${explanation}`;
+        } else if (input.includes('simpler') || input.includes('make') || input.includes('clean')) {
+          expr = input.replace(/make|simpler|clean/gi, '').trim();
           const simplified = math.simplify(expr).toString();
-          resultBox.textContent = `🧹 Simpler form: ${simplified}`;
-        } else if (input.toLowerCase().includes('slope') || input.toLowerCase().startsWith('find slope')) {
-          const expr = input.replace(/find slope|slope/gi, '').trim();
+          explanation = `We combined like terms and removed anything extra to make it easier to read.`;
+          output = `🧹 Simpler form: ${simplified}\n📘 Explanation: ${explanation}`;
+        } else if (input.includes('slope') || input.includes('change') || input.includes('speed')) {
+          expr = input.replace(/find slope|slope|change|speed|how fast/gi, '').trim();
           const derivative = math.derivative(expr, 'x').toString();
-          resultBox.textContent = `📐 Slope: ${derivative}`;
-        } else if (input.toLowerCase().startsWith('what is')) {
-          const expr = input.replace('what is', '').trim();
+          explanation = `This shows how fast the value changes when x changes—like the speed of the curve.`;
+          output = `📐 Slope: ${derivative}\n📘 Explanation: ${explanation}`;
+        } else if (input.includes('what is') || input.includes('calculate') || input.includes('answer')) {
+          expr = input.replace(/what is|calculate|answer|equals/gi, '').trim();
           const evaluated = math.evaluate(expr);
-          resultBox.textContent = `🎯 Result: ${evaluated}`;
+          explanation = `We followed the math rules (like order of operations) to get the final number.`;
+          output = `🎯 Result: ${evaluated}\n📘 Explanation: ${explanation}`;
         } else {
-          resultBox.textContent = `⚠️ Try: solve, make simpler, find slope, or what is...`;
+          output = `⚠️ Try using words like solve, make simpler, slope, or what is...`;
         }
+
+        resultBox.textContent = output;
       } catch (err) {
         resultBox.textContent = `❌ Error: ${err.message}`;
       }
