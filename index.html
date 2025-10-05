@@ -61,6 +61,7 @@
       border-radius: 8px;
       font-size: 1.1em;
       text-align: left;
+      white-space: pre-wrap;
     }
   </style>
 </head>
@@ -93,22 +94,22 @@
         if (input.includes('solve')) {
           expr = input.replace('solve', '').trim();
           const solution = math.solve(expr, 'x');
-          explanation = `To solve this, we find the value of x that makes the equation true.`;
+          explanation = `We looked at your equation and figured out what number makes it true! That means we found the value of x that works perfectly. It's like unlocking a puzzle where everything fits just right. Great job asking a smart question!`;
           output = `✅ Answer: ${JSON.stringify(solution)}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('simpler') || input.includes('make') || input.includes('clean')) {
           expr = input.replace(/make|simpler|clean/gi, '').trim();
           const simplified = math.simplify(expr).toString();
-          explanation = `We combined like terms and removed anything extra to make it easier to read.`;
+          explanation = `We cleaned up your math by combining like terms and removing anything extra. Now it’s easier to read and faster to solve! You’re thinking like a math ninja—keep it up!`;
           output = `🧹 Simpler form: ${simplified}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('slope') || input.includes('change') || input.includes('speed')) {
           expr = input.replace(/find slope|slope|change|speed|how fast/gi, '').trim();
           const derivative = math.derivative(expr, 'x').toString();
-          explanation = `This shows how fast the value changes when x changes—like the speed of the curve.`;
+          explanation = `We checked how fast your math is changing—like measuring the speed of a rollercoaster at every point! This helps you understand how the numbers move. You’re exploring deep math ideas—awesome!`;
           output = `📐 Slope: ${derivative}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('what is') || input.includes('calculate') || input.includes('answer')) {
           expr = input.replace(/what is|calculate|answer|equals/gi, '').trim();
           const evaluated = math.evaluate(expr);
-          explanation = `We followed the math rules (like order of operations) to get the final number.`;
+          explanation = `We followed the math rules step-by-step to get your final answer. It’s like solving a mystery with numbers—and you cracked it! Keep asking great questions!`;
           output = `🎯 Result: ${evaluated}\n📘 Explanation: ${explanation}`;
         } else {
           output = `⚠️ Try using words like solve, make simpler, slope, or what is...`;
