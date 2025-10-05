@@ -3,17 +3,81 @@
 <head>
   <meta charset="UTF-8">
   <title>Math Helper</title>
-  <link rel="stylesheet" href="style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #1e1e2f, #3a3a5f);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: #2c2c44;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    p {
+      text-align: center;
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      background-color: #ff5c5c;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #ff3c3c;
+    }
+    .result {
+      margin-top: 20px;
+      background: #1a1a2e;
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 1.1em;
+      text-align: center;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <h1>📘 Math Helper</h1>
-    <p>Enter a math query like <code>solve x^2 = 9</code> or <code>derivative sin(x)</code></p>
+    <h1>🧠 Math Helper</h1>
+    <p>Type a math question like:<br>
+      <code>solve x^2 = 9</code><br>
+      <code>make 3x + 2x simpler</code><br>
+      <code>find slope of sin(x)</code><br>
+      <code>what is 3 + 4 * 2</code>
+    </p>
 
-    <input type="text" id="queryInput" placeholder="Type your math query here...">
-    <button onclick="processQuery()">Run</button>
+    <input type="text" id="queryInput" placeholder="Type your math question here...">
+    <button onclick="processQuery()">Go</button>
 
-    <div class="result" id="resultBox">Result will appear here.</div>
+    <div class="result" id="resultBox">Your answer will show up here.</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
@@ -26,23 +90,21 @@
         if (input.toLowerCase().startsWith('solve')) {
           const expr = input.replace('solve', '').trim();
           const solution = math.solve(expr, 'x');
-          resultBox.textContent = `🧮 Solution: ${JSON.stringify(solution)}`;
-        } else if (input.toLowerCase().startsWith('simplify')) {
-          const expr = input.replace('simplify', '').trim();
+          resultBox.textContent = `✅ Answer: ${JSON.stringify(solution)}`;
+        } else if (input.toLowerCase().includes('simpler') || input.toLowerCase().startsWith('make')) {
+          const expr = input.replace(/make|simpler/gi, '').trim();
           const simplified = math.simplify(expr).toString();
-          resultBox.textContent = `🔍 Simplified: ${simplified}`;
-        } else if (input.toLowerCase().startsWith('derivative')) {
-          const expr = input.replace('derivative', '').trim();
+          resultBox.textContent = `🧹 Simpler form: ${simplified}`;
+        } else if (input.toLowerCase().includes('slope') || input.toLowerCase().startsWith('find slope')) {
+          const expr = input.replace(/find slope|slope/gi, '').trim();
           const derivative = math.derivative(expr, 'x').toString();
-          resultBox.textContent = `📐 Derivative: ${derivative}`;
-        } else if (input.toLowerCase().startsWith('integral')) {
-          resultBox.textContent = `📊 Integral: (Not supported in browser version)`;
-        } else if (input.toLowerCase().startsWith('evaluate')) {
-          const expr = input.replace('evaluate', '').trim();
+          resultBox.textContent = `📐 Slope: ${derivative}`;
+        } else if (input.toLowerCase().startsWith('what is')) {
+          const expr = input.replace('what is', '').trim();
           const evaluated = math.evaluate(expr);
-          resultBox.textContent = `🧠 Evaluated: ${evaluated}`;
+          resultBox.textContent = `🎯 Result: ${evaluated}`;
         } else {
-          resultBox.textContent = `⚠️ Use: solve, simplify, derivative, integral, or evaluate.`;
+          resultBox.textContent = `⚠️ Try: solve, make simpler, find slope, or what is...`;
         }
       } catch (err) {
         resultBox.textContent = `❌ Error: ${err.message}`;
