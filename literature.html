@@ -2,152 +2,90 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Reading Helper</title>
+  <title>Reading Encyclopedia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #fff0f5, #e0f7ff);
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 20px;
-    }
-    .container {
-      max-width: 500px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-    }
-    h1 {
-      text-align: center;
-      font-size: 2em;
-      margin-bottom: 10px;
-      color: #d94f70;
-    }
-    p {
-      text-align: center;
-      font-size: 1em;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      border: 2px solid #d94f70;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      background-color: #d94f70;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 10px;
-    }
-    button:hover {
-      background-color: #c03c5c;
-    }
-    .chat {
-      margin-top: 20px;
-      background: #ffe6ee;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 1em;
-      max-height: 400px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-    }
-    .user {
-      font-weight: bold;
-      color: #4a90e2;
-    }
-    .response {
-      margin-bottom: 15px;
-    }
+    body { font-family: 'Segoe UI', sans-serif; background: #f0f8ff; padding: 20px; }
+    .container { max-width: 700px; margin: auto; background: #fff; padding: 20px; border-radius: 12px; }
+    h1 { text-align: center; color: #2a6; }
+    input, button { width: 100%; padding: 12px; margin: 5px 0; border-radius: 8px; }
+    input { border: 2px solid #2a6; }
+    button { background: #2a6; color: white; border: none; cursor: pointer; }
+    .result { margin-top: 20px; padding: 15px; background: #e6fff2; border-radius: 8px; white-space: pre-wrap; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📘 Reading Helper</h1>
-    <p>Ask about stories, poems, characters, vocabulary, or text features!</p>
-
-    <input type="text" id="litInput" placeholder="Type your question here...">
-    <button onclick="processLit()">Send</button>
-
-    <div class="chat" id="chatBox"></div>
+    <h1>📘 Reading Encyclopedia</h1>
+    <input type="text" id="queryInput" placeholder="Type a word, book, or author...">
+    <button onclick="searchEntry()">Search</button>
+    <div class="result" id="resultBox">Your answer will appear here.</div>
   </div>
 
   <script>
-    const chatBox = document.getElementById('chatBox');
+    const encyclopedia = {
+      // --- Literary Terms (sample of ~200) ---
+      "metaphor": "A figure of speech that compares two things by saying one is the other.",
+      "simile": "A comparison using 'like' or 'as'.",
+      "alliteration": "The repetition of the same beginning sound in nearby words.",
+      "hyperbole": "An extreme exaggeration used for emphasis.",
+      "personification": "Giving human qualities to nonhuman things.",
+      "onomatopoeia": "A word that imitates a sound, like 'buzz' or 'bang'.",
+      "stanza": "A group of lines in a poem, like a paragraph in poetry.",
+      "protagonist": "The main character in a story, usually the one facing a challenge or change.",
+      "antagonist": "The character or force that opposes the protagonist.",
+      "climax": "The most exciting or important moment in a story, where everything changes.",
+      "setting": "Where and when the story takes place.",
+      "theme": "The big idea or message in a story, like friendship, courage, or change.",
+      "conflict": "A struggle between opposing forces—like character vs. character, or character vs. nature.",
+      "resolution": "How the story’s conflict is solved or wrapped up.",
+      "foreshadowing": "Hints or clues about what will happen later in the story.",
+      "flashback": "A scene that interrupts the story to show something from the past.",
+      "dialogue": "The conversation between characters in a story.",
+      "narrator": "The voice telling the story.",
+      "point of view": "The perspective from which a story is told (first person, third person, etc.).",
+      "tone": "The author’s attitude toward the subject, shown through word choice.",
+      "mood": "The feeling a reader gets from a story.",
+      "symbolism": "Using objects or actions to represent deeper meanings.",
+      "imagery": "Descriptive language that appeals to the senses.",
+      "irony": "When the opposite of what is expected happens.",
+      "genre": "A category of literature, like fiction, nonfiction, poetry, or drama.",
+      "allegory": "A story in which characters and events stand for larger ideas, often moral or political.",
+      "allusion": "A reference to a well-known person, place, event, or work of art or literature.",
+      "analogy": "A comparison between two things to show how they are alike.",
+      "archetype": "A universal symbol, character, or pattern repeated across cultures and literature.",
+      "cliché": "An overused expression or idea that has lost its originality.",
+      "dystopia": "A story set in a society that is frightening, unjust, or oppressive.",
+      "utopia": "An imagined perfect society, often contrasted with dystopia.",
+      "euphemism": "A mild or indirect word used in place of something harsh or unpleasant.",
+      "satire": "Writing that uses humor, irony, or exaggeration to criticize or expose flaws.",
+      "paradox": "A statement that seems contradictory but reveals a truth.",
+      "oxymoron": "A figure of speech that combines opposite ideas, like 'jumbo shrimp'.",
+      "soliloquy": "A speech in a play where a character speaks their thoughts aloud, usually alone on stage.",
+      "monologue": "A long speech by one character in a play or story.",
+      "ballad": "A narrative poem, often set to music, that tells a story.",
+      "sonnet": "A 14-line poem with a specific rhyme scheme, often about love.",
+      "haiku": "A Japanese form of poetry with three lines (5-7-5 syllables).",
+      "epic": "A long narrative poem about heroic deeds and adventures.",
+      // … keep adding until you reach ~200 terms
 
-    function processLit() {
-      const input = document.getElementById('litInput').value.trim();
-      if (!input) return;
-
-      addMessage("You", input);
-      const response = getResponse(input.toLowerCase());
-      addMessage("Helper", response);
-      document.getElementById('litInput').value = '';
-    }
-
-    function addMessage(sender, text) {
-      const message = document.createElement('div');
-      message.className = sender === "You" ? "user" : "response";
-      message.innerHTML = sender === "You"
-        ? `<strong>You:</strong> ${text}`
-        : `${text}`;
-      chatBox.appendChild(message);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function getResponse(input) {
-      if (input.includes("theme") && input.includes("charlotte")) {
-        return "🕸️ Theme of Charlotte’s Web: Friendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.";
-      } else if (input.includes("poem") && input.includes("friendship")) {
-        return "📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey make the dark feel warm and bright.\nThey cheer you on when skies are gray,\nAnd help your worries float away.";
-      } else if (input.includes("main character") && input.includes("hatchet")) {
-        return "🧍 Main character in Hatchet: Brian Robeson—a brave boy who survives alone in the wild after a plane crash. He learns to use his mind, courage, and a hatchet.";
-      } else if (input.includes("symbolism")) {
-        return "🔍 Symbolism means using objects or actions to stand for something else. Like a heart for love, or a storm for trouble. It helps stories feel deeper.";
-      } else if (input.includes("text feature")) {
-        return "📘 Text features are tools that help you understand nonfiction. They include headings, bold words, captions, diagrams, and sidebars. Each one gives clues or highlights key info.";
-      } else if (input.includes("define") || input.includes("definition")) {
-        const word = input.split("define")[1] || input.split("definition of")[1];
-        if (word) {
-          const term = word.trim();
-          const definitions = {
-            photosynthesis: "It is the process by which plants make their own food using sunlight, water, and carbon dioxide.",
-            metaphor: "It is a figure of speech that compares two things by saying one is the other.",
-            protagonist: "It is the main character in a story, usually the one facing a challenge or change.",
-            theme: "It is the big idea or message in a story, like friendship, courage, or change.",
-            stanza: "It is a group of lines in a poem, like a paragraph in poetry.",
-            climax: "It is the most exciting or important moment in a story, where everything changes.",
-            setting: "It is where and when the story takes place—like a forest, a city, or a school."
-          };
-          const def = definitions[term.toLowerCase()];
-          return def
-            ? `📖 Definition of "${term}": ${def}`
-            : `📖 I don't know that word yet, but I'm learning! Try a common literary term.`;
-        } else {
-          return "📖 Try saying 'define' followed by the word you want help with.";
-        }
-      } else if (input.includes("what is a theme")) {
-        return "🎭 A theme is the big idea or message in a story. It’s what the author wants you to think about—like friendship, courage, or change.";
-      } else if (input.includes("what is a character")) {
-        return "🧍 A character is a person, animal, or creature in a story. They do things, feel things, and help the story move forward.";
-      } else {
-        return "📖 I'm still learning! Try asking about a book, poem, character, theme, or vocabulary word.";
-      }
-    }
-  </script>
-</body>
-</html>
+      // --- Book Summaries (sample of dozens) ---
+      "charlotte's web": "By E.B. White. A pig named Wilbur is saved by a spider named Charlotte, who writes words in her web. Themes: friendship, loyalty, life and death.",
+      "hatchet": "By Gary Paulsen. Brian Robeson survives alone in the wilderness after a plane crash, learning resilience and courage.",
+      "the giver": "By Lois Lowry. Jonas lives in a controlled community without pain or choice. He learns about real emotions and freedom, and begins to question his world.",
+      "because of winn-dixie": "By Kate DiCamillo. Opal adopts a stray dog who helps her make friends and heal her relationship with her father.",
+      "the outsiders": "By S.E. Hinton. Ponyboy Curtis and his friends struggle with class conflict between the Greasers and the Socs. Themes: belonging, loyalty, identity.",
+      "holes": "By Louis Sachar. Stanley Yelnats is sent to a camp where boys dig holes. He uncovers a family curse and hidden treasure. Themes: justice, friendship.",
+      "bridge to terabithia": "By Katherine Paterson. Jesse and Leslie create a magical kingdom in the woods. Themes: imagination, friendship, coping with loss.",
+      "number the stars": "By Lois Lowry. Annemarie Johansen helps her Jewish friend escape the Nazis in Denmark during WWII. Themes: courage, sacrifice.",
+      "where the red fern grows": "By Wilson Rawls. Billy raises two hunting dogs, Old Dan and Little Ann. Themes: determination, love, loss.",
+      "island of the blue dolphins": "By Scott O’Dell. Karana, a Native American girl, survives alone on an island using courage and intelligence.",
+      "a wrinkle in time": "By Madeleine L’Engle. Meg Murry travels through space and time to rescue her father. Themes: love, good vs. evil.",
+      "tuck everlasting": "By Natalie Babbitt. Winnie Foster meets the Tuck family, who are immortal. Themes: life, death, choices.",
+      "esperanza rising": "By Pam Muñoz Ryan. Esperanza, a wealthy girl from Mexico, must adjust to life as a farm worker in California during the Great Depression.",
+      "roll of thunder, hear my cry": "By Mildred D. Taylor. The Logan family faces racism in 1930s Mississippi. Themes: justice, family, resilience.",
+      "maniac magee": "By Jerry Spinelli. Jeffrey “Maniac” Magee becomes a legend in his town, bridging racial divides. Themes: belonging, courage.",
+      "the lightning thief": "By Rick Riordan. Percy Jackson discovers he is a demigod and goes on a quest involving Greek gods. Themes: identity, bravery.",
+      "harry potter and the sorcerer's stone": "By J.K. Rowling. Harry discovers he is a wizard and attends Hogwarts, where he faces Voldemort for the first time.",
+      "matilda": "By Roald Dahl. A brilliant girl with neglectful parents discovers her telekinetic powers and stands up to her cruel headmistress.",
+      "
