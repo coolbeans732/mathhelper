@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Math & Lit Helper</title>
+  <title>Literature Helper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #f2f2ff, #d0e6ff);
+      background: linear-gradient(to bottom right, #fff0f5, #e0f7ff);
       color: #333;
       display: flex;
       flex-direction: column;
@@ -27,18 +27,18 @@
       text-align: center;
       font-size: 2em;
       margin-bottom: 10px;
-      color: #4a90e2;
+      color: #d94f70;
     }
     p {
       text-align: center;
       font-size: 1em;
       margin-bottom: 20px;
     }
-    input, select {
+    input {
       width: 100%;
       padding: 12px;
       font-size: 1em;
-      border: 2px solid #4a90e2;
+      border: 2px solid #d94f70;
       border-radius: 10px;
       margin-bottom: 10px;
     }
@@ -46,7 +46,7 @@
       width: 100%;
       padding: 12px;
       font-size: 1em;
-      background-color: #4a90e2;
+      background-color: #d94f70;
       color: white;
       border: none;
       border-radius: 10px;
@@ -54,11 +54,11 @@
       margin-bottom: 10px;
     }
     button:hover {
-      background-color: #357abd;
+      background-color: #c03c5c;
     }
     .result {
       margin-top: 20px;
-      background: #e6f2ff;
+      background: #ffe6ee;
       padding: 15px;
       border-radius: 10px;
       font-size: 1.1em;
@@ -69,141 +69,35 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎉 Math & Lit Helper</h1>
-    <p>Choose your mode and type a question!</p>
+    <h1>📚 Literature Helper</h1>
+    <p>Ask about stories, poems, characters, or writing help!</p>
 
-    <select id="modeSelect">
-      <option value="math">Math Mode</option>
-      <option value="lit">Literature Mode</option>
-    </select>
+    <input type="text" id="litInput" placeholder="Type your literature question here...">
+    <button onclick="processLit()">Go</button>
 
-    <input type="text" id="queryInput" placeholder="Type your question here...">
-    <button onclick="processQuery()">Go</button>
-    <button onclick="loadExample()">Try These</button>
-    <button onclick="loadChallenge()">Math Challenge</button>
-
-    <input type="text" id="answerInput" placeholder="Type your answer to check...">
-    <button onclick="checkAnswer()">Am I Right?</button>
-
-    <div class="result" id="resultBox">Your answer will show up here.</div>
+    <div class="result" id="litResult">Your answer will show up here.</div>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
   <script>
-    let lastCorrectAnswer = null;
+    function processLit() {
+      const input = document.getElementById('litInput').value.toLowerCase().trim();
+      const resultBox = document.getElementById('litResult');
+      let response = '';
 
-    const examples = [
-      "solve x^2 = 16",
-      "make 2x + 5x simpler",
-      "how fast is cos(x) changing",
-      "what is 7 * (2 + 3)",
-      "solve 3x + 2 = 11"
-    ];
-
-    const challenges = [
-      "solve x^2 - 4x + 4 = 0",
-      "make 5x - 2x + 3 simpler",
-      "how fast is x^3 changing",
-      "what is (8 + 2) * 5",
-      "solve 2x + 3 = 2x + 7"
-    ];
-
-    function loadExample() {
-      if (document.getElementById('modeSelect').value === 'math') {
-        const random = examples[Math.floor(Math.random() * examples.length)];
-        document.getElementById('queryInput').value = random;
-        document.getElementById('answerInput').value = '';
-        document.getElementById('resultBox').textContent = 'Your answer will show up here.';
-      }
-    }
-
-    function loadChallenge() {
-      if (document.getElementById('modeSelect').value === 'math') {
-        const random = challenges[Math.floor(Math.random() * challenges.length)];
-        document.getElementById('queryInput').value = random;
-        document.getElementById('answerInput').value = '';
-        document.getElementById('resultBox').textContent = 'Your answer will show up here.';
-      }
-    }
-
-    function processQuery() {
-      const mode = document.getElementById('modeSelect').value;
-      const input = document.getElementById('queryInput').value.trim().toLowerCase();
-      const resultBox = document.getElementById('resultBox');
-      let expr = '';
-      let explanation = '';
-      let output = '';
-
-      if (mode === 'lit') {
-        lastCorrectAnswer = null;
-        output = handleLiterature(input);
-        resultBox.textContent = output;
-        return;
-      }
-
-      try {
-        if (input.includes('solve')) {
-          expr = input.replace('solve', '').trim();
-          const solution = math.solve(expr, 'x');
-          lastCorrectAnswer = solution;
-          explanation = `We figured out what number makes the equation true! It's like solving a puzzle where everything fits. You're doing awesome!`;
-          output = `✅ Answer: ${JSON.stringify(solution)}\n📘 Explanation: ${explanation}`;
-        } else if (input.includes('simpler') || input.includes('make') || input.includes('clean')) {
-          expr = input.replace(/make|simpler|clean/gi, '').trim();
-          const simplified = math.simplify(expr).toString();
-          lastCorrectAnswer = simplified;
-          explanation = `We made the math shorter and easier to understand. You’re thinking like a math ninja—keep it up!`;
-          output = `🧹 Simpler form: ${simplified}\n📘 Explanation: ${explanation}`;
-        } else if (input.includes('slope') || input.includes('change') || input.includes('speed')) {
-          expr = input.replace(/find slope|slope|change|speed|how fast/gi, '').trim();
-          const derivative = math.derivative(expr, 'x').toString();
-          lastCorrectAnswer = derivative;
-          explanation = `We checked how fast your math is changing—like measuring the speed of a rollercoaster! You’re exploring deep math ideas—awesome!`;
-          output = `📐 Slope: ${derivative}\n📘 Explanation: ${explanation}`;
-        } else if (input.includes('what is') || input.includes('calculate') || input.includes('answer')) {
-          expr = input.replace(/what is|calculate|answer|equals/gi, '').trim();
-          const evaluated = math.evaluate(expr);
-          lastCorrectAnswer = evaluated;
-          explanation = `We followed the math rules step-by-step to get your final answer. It’s like solving a mystery with numbers—and you cracked it!`;
-          output = `🎯 Result: ${evaluated}\n📘 Explanation: ${explanation}`;
-        } else {
-          output = `⚠️ Try using words like solve, make simpler, slope, or what is...`;
-          lastCorrectAnswer = null;
-        }
-
-        resultBox.textContent = output;
-      } catch (err) {
-        resultBox.textContent = `❌ Error: ${err.message}`;
-        lastCorrectAnswer = null;
-      }
-    }
-
-    function checkAnswer() {
-      const userAnswer = document.getElementById('answerInput').value.trim();
-      const resultBox = document.getElementById('resultBox');
-
-      if (lastCorrectAnswer === null) {
-        resultBox.textContent = `⚠️ First run a math question, then check your answer!`;
-        return;
-      }
-
-      let correct = false;
-
-      if (Array.isArray(lastCorrectAnswer)) {
-        correct = lastCorrectAnswer.includes(Number(userAnswer));
-      } else {
-        correct = String(lastCorrectAnswer).trim() === userAnswer;
-      }
-
-      if (correct) {
-        resultBox.textContent += `\n✅ You got it! That’s the right answer. 🎉`;
-      } else {
-        resultBox.textContent += `\n❌ Not quite. Try again or ask for help! 💡`;
-      }
-    }
-
-    function handleLiterature(input) {
       if (input.includes("theme") && input.includes("charlotte")) {
-        return `📚 Theme of Charlotte’s Web: Friendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.`;
+        response = `🕸️ Theme of Charlotte’s Web:\nFriendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.`;
       } else if (input.includes("poem") && input.includes("friendship")) {
-        return `📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey
+        response = `📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey make the dark feel warm and bright.\nThey cheer you on when skies are gray,\nAnd help your worries float away.`;
+      } else if (input.includes("main character") && input.includes("hatchet")) {
+        response = `🧍 Main character in Hatchet:\nBrian Robeson—a brave boy who survives alone in the wild after a plane crash. He learns to use his mind, courage, and a hatchet.`;
+      } else if (input.includes("symbolism")) {
+        response = `🔍 Symbolism means using objects or actions to stand for something else. Like a heart for love, or a storm for trouble. It helps stories feel deeper.`;
+      } else {
+        response = `📖 I’m still learning! Try asking about a book, poem, character, or writing idea.`;
+      }
+
+      resultBox.textContent = response;
+    }
+  </script>
+</body>
+</html>
