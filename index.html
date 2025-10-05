@@ -8,8 +8,8 @@
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #1e1e2f, #3a3a5f);
-      color: #fff;
+      background: linear-gradient(to bottom right, #f2f2ff, #d0e6ff);
+      color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -18,15 +18,16 @@
     .container {
       max-width: 500px;
       width: 100%;
-      background: #2c2c44;
-      border-radius: 12px;
+      background: #ffffff;
+      border-radius: 16px;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
     }
     h1 {
       text-align: center;
       font-size: 2em;
       margin-bottom: 10px;
+      color: #4a90e2;
     }
     p {
       text-align: center;
@@ -37,28 +38,29 @@
       width: 100%;
       padding: 12px;
       font-size: 1em;
-      border: none;
-      border-radius: 8px;
+      border: 2px solid #4a90e2;
+      border-radius: 10px;
       margin-bottom: 10px;
     }
     button {
       width: 100%;
       padding: 12px;
       font-size: 1em;
-      background-color: #ff5c5c;
+      background-color: #4a90e2;
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
+      margin-bottom: 10px;
     }
     button:hover {
-      background-color: #ff3c3c;
+      background-color: #357abd;
     }
     .result {
       margin-top: 20px;
-      background: #1a1a2e;
+      background: #e6f2ff;
       padding: 15px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: 1.1em;
       text-align: left;
       white-space: pre-wrap;
@@ -67,7 +69,7 @@
 </head>
 <body>
   <div class="container">
-    <h1>🧠 Math Helper</h1>
+    <h1>🎉 Math Helper</h1>
     <p>Type a math question like:<br>
       <code>solve x^2 = 9</code><br>
       <code>make 3x + 2x simpler</code><br>
@@ -77,12 +79,40 @@
 
     <input type="text" id="queryInput" placeholder="Type your math question here...">
     <button onclick="processQuery()">Go</button>
+    <button onclick="loadExample()">Try These</button>
+    <button onclick="loadChallenge()">Math Challenge</button>
 
     <div class="result" id="resultBox">Your answer will show up here.</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
   <script>
+    const examples = [
+      "solve x^2 = 16",
+      "make 2x + 5x simpler",
+      "how fast is cos(x) changing",
+      "what is 7 * (2 + 3)",
+      "solve 3x + 2 = 11"
+    ];
+
+    const challenges = [
+      "solve x^2 - 4x + 4 = 0",
+      "make 5x - 2x + 3 simpler",
+      "how fast is x^3 changing",
+      "what is (8 + 2) * 5",
+      "solve 2x + 3 = 2x + 7"
+    ];
+
+    function loadExample() {
+      const random = examples[Math.floor(Math.random() * examples.length)];
+      document.getElementById('queryInput').value = random;
+    }
+
+    function loadChallenge() {
+      const random = challenges[Math.floor(Math.random() * challenges.length)];
+      document.getElementById('queryInput').value = random;
+    }
+
     function processQuery() {
       const input = document.getElementById('queryInput').value.trim().toLowerCase();
       const resultBox = document.getElementById('resultBox');
@@ -94,7 +124,7 @@
         if (input.includes('solve')) {
           expr = input.replace('solve', '').trim();
           const solution = math.solve(expr, 'x');
-          explanation = `We looked at your equation and figured out what number makes it true! That means we found the value of x that works perfectly. It's like unlocking a puzzle where everything fits just right. Great job asking a smart question!`;
+          explanation = `We looked at your equation and figured out what number makes it true! That means we found the value of x that works perfectly. It's like unlocking a puzzle where everything fits just right. You're doing awesome!`;
           output = `✅ Answer: ${JSON.stringify(solution)}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('simpler') || input.includes('make') || input.includes('clean')) {
           expr = input.replace(/make|simpler|clean/gi, '').trim();
