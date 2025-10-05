@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Literature Helper</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #fff0f5, #e0f7ff);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .container {
+      max-width: 500px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2em;
+      margin-bottom: 10px;
+      color: #d94f70;
+    }
+    p {
+      text-align: center;
+      font-size: 1em;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border: 2px solid #d94f70;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      background-color: #d94f70;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #c03c5c;
+    }
+    .result {
+      margin-top: 20px;
+      background: #ffe6ee;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📚 Literature Helper</h1>
+    <p>Ask about stories, poems, characters, or writing help!</p>
+
+    <input type="text" id="litInput" placeholder="Type your literature question here...">
+    <button onclick="processLit()">Go</button>
+
+    <div class="result" id="litResult">Your answer will show up here.</div>
+  </div>
+
+  <script>
+    function processLit() {
+      const input = document.getElementById('litInput').value.toLowerCase().trim();
+      const resultBox = document.getElementById('litResult');
+      let response = '';
+
+      if (input.includes("theme") && input.includes("charlotte")) {
+        response = `🕸️ Theme of Charlotte’s Web:\nFriendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.`;
+      } else if (input.includes("poem") && input.includes("friendship")) {
+        response = `📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey make the dark feel warm and bright.\nThey cheer you on when skies are gray,\nAnd help your worries float away.`;
+      } else if (input.includes("main character") && input.includes("hatchet")) {
+        response = `🧍 Main character in Hatchet:\nBrian Robeson—a brave boy who survives alone in the wild after a plane crash. He learns to use his mind, courage, and a hatchet.`;
+      } else if (input.includes("symbolism")) {
+        response = `🔍 Symbolism means using objects or actions to stand for something else. Like a heart for love, or a storm for trouble. It helps stories feel deeper.`;
+      } else {
+        response = `📖 I’m still learning! Try asking about a book, poem, character, or writing idea.`;
+      }
+
+      resultBox.textContent = response;
+    }
+  </script>
+</body>
+</html>
