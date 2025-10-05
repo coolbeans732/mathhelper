@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Math Helper</title>
+  <title>Math & Lit Helper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -34,7 +34,7 @@
       font-size: 1em;
       margin-bottom: 20px;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 12px;
       font-size: 1em;
@@ -69,15 +69,15 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎉 Math Helper</h1>
-    <p>Type a math question like:<br>
-      <code>solve x^2 = 9</code><br>
-      <code>make 3x + 2x simpler</code><br>
-      <code>how fast is sin(x) changing</code><br>
-      <code>what is 3 + 4 * 2</code>
-    </p>
+    <h1>🎉 Math & Lit Helper</h1>
+    <p>Choose your mode and type a question!</p>
 
-    <input type="text" id="queryInput" placeholder="Type your math question here...">
+    <select id="modeSelect">
+      <option value="math">Math Mode</option>
+      <option value="lit">Literature Mode</option>
+    </select>
+
+    <input type="text" id="queryInput" placeholder="Type your question here...">
     <button onclick="processQuery()">Go</button>
     <button onclick="loadExample()">Try These</button>
     <button onclick="loadChallenge()">Math Challenge</button>
@@ -109,25 +109,37 @@
     ];
 
     function loadExample() {
-      const random = examples[Math.floor(Math.random() * examples.length)];
-      document.getElementById('queryInput').value = random;
-      document.getElementById('answerInput').value = '';
-      document.getElementById('resultBox').textContent = 'Your answer will show up here.';
+      if (document.getElementById('modeSelect').value === 'math') {
+        const random = examples[Math.floor(Math.random() * examples.length)];
+        document.getElementById('queryInput').value = random;
+        document.getElementById('answerInput').value = '';
+        document.getElementById('resultBox').textContent = 'Your answer will show up here.';
+      }
     }
 
     function loadChallenge() {
-      const random = challenges[Math.floor(Math.random() * challenges.length)];
-      document.getElementById('queryInput').value = random;
-      document.getElementById('answerInput').value = '';
-      document.getElementById('resultBox').textContent = 'Your answer will show up here.';
+      if (document.getElementById('modeSelect').value === 'math') {
+        const random = challenges[Math.floor(Math.random() * challenges.length)];
+        document.getElementById('queryInput').value = random;
+        document.getElementById('answerInput').value = '';
+        document.getElementById('resultBox').textContent = 'Your answer will show up here.';
+      }
     }
 
     function processQuery() {
+      const mode = document.getElementById('modeSelect').value;
       const input = document.getElementById('queryInput').value.trim().toLowerCase();
       const resultBox = document.getElementById('resultBox');
       let expr = '';
       let explanation = '';
       let output = '';
+
+      if (mode === 'lit') {
+        lastCorrectAnswer = null;
+        output = handleLiterature(input);
+        resultBox.textContent = output;
+        return;
+      }
 
       try {
         if (input.includes('solve')) {
@@ -189,6 +201,9 @@
         resultBox.textContent += `\n❌ Not quite. Try again or ask for help! 💡`;
       }
     }
-  </script>
-</body>
-  </html>
+
+    function handleLiterature(input) {
+      if (input.includes("theme") && input.includes("charlotte")) {
+        return `📚 Theme of Charlotte’s Web: Friendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.`;
+      } else if (input.includes("poem") && input.includes("friendship")) {
+        return `📝 Poem about friendship:\n\nFriends are stars that light the night,\nThey
