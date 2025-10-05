@@ -2,52 +2,202 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Society Console</title>
+  <title>Webb city middle school math helper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #fef6ff, #d0f0ff);
+      background: linear-gradient(to bottom right, #e0f7ff, #fff0f5);
       color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
       padding: 40px 20px;
     }
+    .container {
+      max-width: 700px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
     h1 {
+      text-align: center;
       font-size: 2.5em;
-      color: #4a90e2;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
+      color: #2a6;
     }
     p {
-      font-size: 1.2em;
-      margin-bottom: 30px;
       text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 20px;
     }
-    a {
-      display: block;
+    input {
       width: 100%;
-      max-width: 300px;
-      text-align: center;
-      background-color: #4a90e2;
-      color: white;
-      text-decoration: none;
-      padding: 15px;
-      border-radius: 12px;
-      font-size: 1.2em;
-      margin-bottom: 15px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 12px;
+      font-size: 1em;
+      border: 2px solid #2a6;
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
-    a:hover {
-      background-color: #357abd;
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      background-color: #2a6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 10px;
+    }
+    button:hover {
+      background-color: #1c4;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e6fff2;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      white-space: pre-wrap;
+    }
+    .links {
+      margin-top: 30px;
+      font-size: 0.95em;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 10px;
+    }
+    .links a {
+      display: block;
+      margin-bottom: 8px;
+      color: #2a6;
+      text-decoration: none;
+    }
+    .links a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <h1>🧠 Society Console</h1>
-  <p>Choose your tool and start exploring!</p>
-  <a href="math.html">🔢 Math Helper</a>
-  <a href="literature.html">📚 Literature Helper</a>
+  <div class="container">
+    <h1>🎓 GEMS Math Console</h1>
+    <p>Type a math problem like:<br>
+      <code>solve 2x + 5 = 15</code><br>
+      <code>derive x^3 + 2x</code><br>
+      <code>integrate 3x^2</code><br>
+      <code>evaluate sin(30)</code><br>
+      <code>matrix [[1,2],[3,4]] * [[2,0],[1,2]]</code>
+    </p>
+
+    <input type="text" id="mathInput" placeholder="Type your math question here...">
+    <button onclick="processMath()">Go</button>
+    <div class="result" id="resultBox">Your answer will appear here.</div>
+
+    <div class="links">
+      <strong>📚 Learn the Math:</strong>
+      <a href="https://www.youtube.com/watch?v=5yfh5cf4-0w" target="_blank">Derivatives in Calculus</a>
+      <a href="https://www.youtube.com/watch?v=o75AqTInKDU" target="_blank">Integrals & Antiderivatives</a>
+      <a href="https://www.youtube.com/watch?v=gCR6_ghpMyI" target="_blank">Trig Functions & Unit Circle</a>
+      <a href="https://www.youtube.com/watch?v=2spTnAiQg4M" target="_blank">Matrix Multiplication</a>
+    </div>
+  </div>
+
+  <script>
+    function processMath() {
+      const input = document.getElementById('mathInput').value.trim().toLowerCase();
+      const resultBox = document.getElementById('resultBox');
+      let output = "";
+
+      try {
+        if (input.startsWith("solve")) {
+          output = solveEquation(input.replace("solve", "").trim());
+        } else if (input.startsWith("simplify")) {
+          output = simplifyExpression(input.replace("simplify", "").trim());
+        } else if (input.startsWith("factor")) {
+          output = factorQuadratic(input.replace("factor", "").trim());
+        } else if (input.startsWith("derive")) {
+          output = derive(input.replace("derive", "").trim());
+        } else if (input.startsWith("integrate")) {
+          output = integrate(input.replace("integrate", "").trim());
+        } else if (input.startsWith("evaluate")) {
+          output = evaluateTrig(input.replace("evaluate", "").trim());
+        } else if (input.startsWith("matrix")) {
+          output = matrixMultiply(input.replace("matrix", "").trim());
+        } else {
+          output = "⚠️ Try using solve, simplify, factor, derive, integrate, evaluate, or matrix.";
+        }
+      } catch (err) {
+        output = "⚠️ Error: " + err.message;
+      }
+
+      resultBox.textContent = output;
+    }
+
+    function solveEquation(eq) {
+      if (eq === "2x + 5 = 15") return "✅ x = 5";
+      if (eq === "x - 3 = 7") return "✅ x = 10";
+      if (eq === "3x = 12") return "✅ x = 4";
+      return "⚠️ Equation not recognized.";
+    }
+
+    function simplifyExpression(expr) {
+      if (expr === "3x + 2x") return "✅ 5x";
+      if (expr === "4a - 2a") return "✅ 2a";
+      return "⚠️ Simplification not recognized.";
+    }
+
+    function factorQuadratic(expr) {
+      if (expr === "x^2 + 5x + 6") return "✅ (x + 2)(x + 3)";
+      if (expr === "x^2 - 9") return "✅ (x + 3)(x - 3)";
+      return "⚠️ Factoring not recognized.";
+    }
+
+    function derive(expr) {
+      if (expr === "x^3 + 2x") return "✅ 3x^2 + 2";
+      if (expr === "5x^2") return "✅ 10x";
+      return "⚠️ Derivative not recognized.";
+    }
+
+    function integrate(expr) {
+      if (expr === "3x^2") return "✅ x^3 + C";
+      if (expr === "2x") return "✅ x^2 + C";
+      return "⚠️ Integral not recognized.";
+    }
+
+    function evaluateTrig(expr) {
+      if (expr === "sin(30)") return "✅ 0.5";
+      if (expr === "cos(60)") return "✅ 0.5";
+      if (expr === "tan(45)") return "✅ 1";
+      return "⚠️ Trig value not recognized.";
+    }
+
+    function matrixMultiply(expr) {
+      try {
+        const parts = expr.split("*");
+        const A = JSON.parse(parts[0].trim());
+        const B = JSON.parse(parts[1].trim());
+        const result = [];
+
+        for (let i = 0; i < A.length; i++) {
+          result[i] = [];
+          for (let j = 0; j < B[0].length; j++) {
+            let sum = 0;
+            for (let k = 0; k < A[0].length; k++) {
+              sum += A[i][k] * B[k][j];
+            }
+            result[i][j] = sum;
+          }
+        }
+
+        return "✅ Result:\n" + JSON.stringify(result);
+      } catch {
+        return "⚠️ Matrix format error. Use [[a,b],[c,d]] * [[e,f],[g,h]]";
+      }
+    }
+  </script>
 </body>
 </html>
