@@ -82,11 +82,16 @@
     <button onclick="loadExample()">Try These</button>
     <button onclick="loadChallenge()">Math Challenge</button>
 
+    <input type="text" id="answerInput" placeholder="Type your answer to check...">
+    <button onclick="checkAnswer()">Am I Right?</button>
+
     <div class="result" id="resultBox">Your answer will show up here.</div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.11.0/math.min.js"></script>
   <script>
+    let lastCorrectAnswer = null;
+
     const examples = [
       "solve x^2 = 16",
       "make 2x + 5x simpler",
@@ -106,11 +111,15 @@
     function loadExample() {
       const random = examples[Math.floor(Math.random() * examples.length)];
       document.getElementById('queryInput').value = random;
+      document.getElementById('answerInput').value = '';
+      document.getElementById('resultBox').textContent = 'Your answer will show up here.';
     }
 
     function loadChallenge() {
       const random = challenges[Math.floor(Math.random() * challenges.length)];
       document.getElementById('queryInput').value = random;
+      document.getElementById('answerInput').value = '';
+      document.getElementById('resultBox').textContent = 'Your answer will show up here.';
     }
 
     function processQuery() {
@@ -124,32 +133,62 @@
         if (input.includes('solve')) {
           expr = input.replace('solve', '').trim();
           const solution = math.solve(expr, 'x');
-          explanation = `We looked at your equation and figured out what number makes it true! That means we found the value of x that works perfectly. It's like unlocking a puzzle where everything fits just right. You're doing awesome!`;
+          lastCorrectAnswer = solution;
+          explanation = `We figured out what number makes the equation true! It's like solving a puzzle where everything fits. You're doing awesome!`;
           output = `✅ Answer: ${JSON.stringify(solution)}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('simpler') || input.includes('make') || input.includes('clean')) {
           expr = input.replace(/make|simpler|clean/gi, '').trim();
           const simplified = math.simplify(expr).toString();
-          explanation = `We cleaned up your math by combining like terms and removing anything extra. Now it’s easier to read and faster to solve! You’re thinking like a math ninja—keep it up!`;
+          lastCorrectAnswer = simplified;
+          explanation = `We made the math shorter and easier to understand. You’re thinking like a math ninja—keep it up!`;
           output = `🧹 Simpler form: ${simplified}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('slope') || input.includes('change') || input.includes('speed')) {
           expr = input.replace(/find slope|slope|change|speed|how fast/gi, '').trim();
           const derivative = math.derivative(expr, 'x').toString();
-          explanation = `We checked how fast your math is changing—like measuring the speed of a rollercoaster at every point! This helps you understand how the numbers move. You’re exploring deep math ideas—awesome!`;
+          lastCorrectAnswer = derivative;
+          explanation = `We checked how fast your math is changing—like measuring the speed of a rollercoaster! You’re exploring deep math ideas—awesome!`;
           output = `📐 Slope: ${derivative}\n📘 Explanation: ${explanation}`;
         } else if (input.includes('what is') || input.includes('calculate') || input.includes('answer')) {
           expr = input.replace(/what is|calculate|answer|equals/gi, '').trim();
           const evaluated = math.evaluate(expr);
-          explanation = `We followed the math rules step-by-step to get your final answer. It’s like solving a mystery with numbers—and you cracked it! Keep asking great questions!`;
+          lastCorrectAnswer = evaluated;
+          explanation = `We followed the math rules step-by-step to get your final answer. It’s like solving a mystery with numbers—and you cracked it!`;
           output = `🎯 Result: ${evaluated}\n📘 Explanation: ${explanation}`;
         } else {
           output = `⚠️ Try using words like solve, make simpler, slope, or what is...`;
+          lastCorrectAnswer = null;
         }
 
         resultBox.textContent = output;
       } catch (err) {
         resultBox.textContent = `❌ Error: ${err.message}`;
+        lastCorrectAnswer = null;
+      }
+    }
+
+    function checkAnswer() {
+      const userAnswer = document.getElementById('answerInput').value.trim();
+      const resultBox = document.getElementById('resultBox');
+
+      if (lastCorrectAnswer === null) {
+        resultBox.textContent = `⚠️ First run a math question, then check your answer!`;
+        return;
+      }
+
+      let correct = false;
+
+      if (Array.isArray(lastCorrectAnswer)) {
+        correct = lastCorrectAnswer.includes(Number(userAnswer));
+      } else {
+        correct = String(lastCorrectAnswer).trim() === userAnswer;
+      }
+
+      if (correct) {
+        resultBox.textContent += `\n✅ You got it! That’s the right answer. 🎉`;
+      } else {
+        resultBox.textContent += `\n❌ Not quite. Try again or ask for help! 💡`;
       }
     }
   </script>
 </body>
-</html>
+  </html>
