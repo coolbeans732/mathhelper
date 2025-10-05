@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Literature Helper</title>
+  <title>Reading Helper</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -70,14 +70,14 @@
       font-weight: bold;
       color: #4a90e2;
     }
-    .ai {
+    .response {
       margin-bottom: 15px;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📚 Literature Helper</h1>
+    <h1>📘 Reading Helper</h1>
     <p>Ask about stories, poems, characters, vocabulary, or text features!</p>
 
     <input type="text" id="litInput" placeholder="Type your question here...">
@@ -94,20 +94,22 @@
       if (!input) return;
 
       addMessage("You", input);
-      const response = getAIResponse(input.toLowerCase());
-      addMessage("AI", response);
+      const response = getResponse(input.toLowerCase());
+      addMessage("Helper", response);
       document.getElementById('litInput').value = '';
     }
 
     function addMessage(sender, text) {
       const message = document.createElement('div');
-      message.className = sender === "You" ? "user" : "ai";
-      message.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      message.className = sender === "You" ? "user" : "response";
+      message.innerHTML = sender === "You"
+        ? `<strong>You:</strong> ${text}`
+        : `${text}`;
       chatBox.appendChild(message);
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    function getAIResponse(input) {
+    function getResponse(input) {
       if (input.includes("theme") && input.includes("charlotte")) {
         return "🕸️ Theme of Charlotte’s Web: Friendship, loyalty, and the beauty of life. Wilbur and Charlotte show how caring for others makes life meaningful.";
       } else if (input.includes("poem") && input.includes("friendship")) {
@@ -121,7 +123,20 @@
       } else if (input.includes("define") || input.includes("definition")) {
         const word = input.split("define")[1] || input.split("definition of")[1];
         if (word) {
-          return `📖 Definition of "${word.trim()}": A simple explanation of what that word means. Try using it in a sentence to remember it!`;
+          const term = word.trim();
+          const definitions = {
+            photosynthesis: "It is the process by which plants make their own food using sunlight, water, and carbon dioxide.",
+            metaphor: "It is a figure of speech that compares two things by saying one is the other.",
+            protagonist: "It is the main character in a story, usually the one facing a challenge or change.",
+            theme: "It is the big idea or message in a story, like friendship, courage, or change.",
+            stanza: "It is a group of lines in a poem, like a paragraph in poetry.",
+            climax: "It is the most exciting or important moment in a story, where everything changes.",
+            setting: "It is where and when the story takes place—like a forest, a city, or a school."
+          };
+          const def = definitions[term.toLowerCase()];
+          return def
+            ? `📖 Definition of "${term}": ${def}`
+            : `📖 I don't know that word yet, but I'm learning! Try a common literary term.`;
         } else {
           return "📖 Try saying 'define' followed by the word you want help with.";
         }
@@ -130,7 +145,7 @@
       } else if (input.includes("what is a character")) {
         return "🧍 A character is a person, animal, or creature in a story. They do things, feel things, and help the story move forward.";
       } else {
-        return "📖 I’m still learning! Try asking about a book, poem, character, theme, or vocabulary word.";
+        return "📖 I'm still learning! Try asking about a book, poem, character, theme, or vocabulary word.";
       }
     }
   </script>
