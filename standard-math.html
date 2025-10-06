@@ -3,91 +3,104 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Standard Math Curriculum</title>
+  <title>Standard Math Engine</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f0f8ff;
+    .engine {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
     }
-    #pageSwitcher {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
-    select {
-      padding: 5px;
-      font-size: 14px;
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      background: #4b9cd3;
+      color: white;
+      cursor: pointer;
     }
-    h2 {
-      margin-top: 30px;
-      color: #333;
+    button:hover {
+      background: #3a8ac0;
     }
-    ul {
-      margin-left: 20px;
+    .output {
+      margin-top: 20px;
+      font-size: 1.1em;
     }
   </style>
 </head>
 <body>
 
-  <div id="pageSwitcher">
-    <select onchange="switchPage(this.value)">
-      <option value="">🔀 Switch Page</option>
-      <option value="https://coolbeans732.github.io/gems-math/">GEMS Math Curriculum</option>
-      <option value="https://coolbeans732.github.io/standard-math/">Standard Math Curriculum</option>
-    </select>
+  <header>
+    <h1>Standard Math Engine</h1>
+    <p>Type a math phrase or equation below</p>
+  </header>
+
+  <div class="engine">
+    <input type="text" id="mathInput" placeholder="e.g. What’s the mean of 4, 7, 9 or just 4+7*2" />
+    <button onclick="processInput()">Calculate</button>
+    <div class="output" id="output"></div>
   </div>
 
-  <h1>Standard Math Curriculum (Webb City Middle School)</h1>
-
-  <h2>🧮 Numbers & Operations</h2>
-  <ul>
-    <li>Place value and number sense</li>
-    <li>Operations with whole numbers, decimals, fractions</li>
-    <li>Ratios, rates, and percents</li>
-    <li>Prime factorization, GCF, LCM</li>
-  </ul>
-
-  <h2>📐 Geometry</h2>
-  <ul>
-    <li>Area, perimeter, surface area, volume</li>
-    <li>Properties of 2D and 3D shapes</li>
-    <li>Angle relationships</li>
-    <li>Coordinate plane geometry</li>
-    <li>Transformations: translations, rotations, reflections, dilations</li>
-  </ul>
-
-  <h2>📊 Data & Statistics</h2>
-  <ul>
-    <li>Mean, median, mode, range</li>
-    <li>Box plots, histograms, dot plots</li>
-    <li>Probability: simple and compound</li>
-    <li>Interpreting graphs and tables</li>
-  </ul>
-
-  <h2>🧠 Algebraic Thinking</h2>
-  <ul>
-    <li>Expressions and equations</li>
-    <li>Solving one- and two-step equations</li>
-    <li>Inequalities</li>
-    <li>Patterns and sequences</li>
-    <li>Linear relationships and graphing</li>
-  </ul>
-
-  <h2>📈 Functions (Grade 8)</h2>
-  <ul>
-    <li>Function notation</li>
-    <li>Comparing linear and nonlinear functions</li>
-    <li>Slope and rate of change</li>
-    <li>Systems of equations</li>
-  </ul>
+  <footer>
+    Built by Archie • Phrase-aware engine for Webb City learners
+  </footer>
 
   <script>
-    function switchPage(url) {
-      if (url) window.location.href = url;
+    function processInput() {
+      const input = document.getElementById("mathInput").value.trim();
+      const output = document.getElementById("output");
+
+      if (!input) {
+        output.innerHTML = "Please enter a math phrase or equation.";
+        return;
+      }
+
+      // Detect statistics phrases
+      const statsMatch = input.match(/mean|median|mode|range/i);
+      const numbers = input.match(/\d+(\.\d+)?/g)?.map(Number);
+
+      if (statsMatch && numbers && numbers.length > 0) {
+        const sorted = [...numbers].sort((a, b) => a - b);
+        const mean = (numbers.reduce((a, b) => a + b, 0) / numbers.length).toFixed(2);
+        const median = sorted.length % 2 === 0
+          ? ((sorted[sorted.length/2 - 1] + sorted[sorted.length/2]) / 2).toFixed(2)
+          : sorted[Math.floor(sorted.length/2)].toFixed(2);
+        const mode = numbers.sort((a,b) =>
+          numbers.filter(v => v===a).length - numbers.filter(v => v===b).length
+        ).pop();
+        const range = (Math.max(...numbers) - Math.min(...numbers)).toFixed(2);
+
+        let response = "";
+        if (/mean/i.test(input)) response += `Mean: ${mean}<br>`;
+        if (/median/i.test(input)) response += `Median: ${median}<br>`;
+        if (/mode/i.test(input)) response += `Mode: ${mode}<br>`;
+        if (/range/i.test(input)) response += `Range: ${range}<br>`;
+        output.innerHTML = response || "No valid stat keyword detected.";
+        return;
+      }
+
+      // Try raw math evaluation
+      try {
+        const result = eval(input);
+        output.innerHTML = `Answer: ${result}`;
+      } catch (e) {
+        output.innerHTML = "Could not understand that input.";
+      }
     }
   </script>
 
 </body>
-      </html>
+</html>
