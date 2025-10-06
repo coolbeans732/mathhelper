@@ -97,7 +97,9 @@
         output = generateChallenge();
       } else if (/^[0-9+\-*/().\s%]+$/.test(input)) {
         try {
-          output = "✅ " + eval(input.replace(/%/g, "/100*"));
+          const cleaned = input.replace(/%/g, "/100*");
+          const result = eval(cleaned);
+          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated using order of operations.`;
         } catch {
           output = "⚠️ Couldn’t evaluate that expression.";
         }
@@ -112,16 +114,4 @@
       const challenges = [
         "What is 15% of 80?",
         "Solve 3x - 7 = 11",
-        "Find the median of 2, 9, 4, 7",
-        "Multiply [[1,2],[3,4]] * [[2,0],[1,2]]",
-        "What’s the volume of a box 3x4x5?"
-      ];
-      const pick = challenges[Math.floor(Math.random() * challenges.length)];
-      return "🧠 Challenge: " + pick;
-    }
-
-    function matchPhrase(input) {
-      if (input.includes("middle number") || input.includes("median")) {
-        return findMedian(input.replace(/[^0-9,.-]/g, ""));
-      }
-      if (
+        "Find the median of 2, 9, 4, 7
