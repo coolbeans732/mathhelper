@@ -71,8 +71,8 @@
   <div class="container">
     <h1>🔮 GEMS Math Console</h1>
     <p>
-      This console understands real kid phrasing. Try “what’s the middle number of 3, 5, 7” or “solve 2x + 5 = 15”.
-      You can toggle challenge mode to get randomized problems. Matrix ops and stealth logic are built in.
+      This console understands real kid phrasing. Try “middle number of 3, 5, 7” or “25% of 80”.
+      Toggle challenge mode for randomized problems. Matrix ops and stealth logic are built in.
     </p>
 
     <input type="text" id="mathInput" placeholder="Type your math question here...">
@@ -95,6 +95,12 @@
 
       if (challenge) {
         output = generateChallenge();
+      } else if (/^[0-9+\-*/().\s%]+$/.test(input)) {
+        try {
+          output = "✅ " + eval(input.replace(/%/g, "/100*"));
+        } catch {
+          output = "⚠️ Couldn’t evaluate that expression.";
+        }
       } else {
         output = matchPhrase(input);
       }
@@ -118,49 +124,4 @@
       if (input.includes("middle number") || input.includes("median")) {
         return findMedian(input.replace(/[^0-9,.-]/g, ""));
       }
-      if (input.includes("average") || input.includes("mean")) {
-        return findMean(input.replace(/[^0-9,.-]/g, ""));
-      }
-      if (input.includes("most common") || input.includes("mode")) {
-        return findMode(input.replace(/[^0-9,.-]/g, ""));
-      }
-      if (input.includes("difference") || input.includes("range")) {
-        return findRange(input.replace(/[^0-9,.-]/g, ""));
-      }
-      return "⚠️ Phrase not recognized yet. Try 'middle number of 3, 5, 7' or activate challenge mode.";
-    }
-
-    function findMean(expr) {
-      const nums = expr.split(",").map(n => parseFloat(n.trim()));
-      if (nums.some(isNaN)) return "⚠️ Invalid numbers.";
-      const mean = nums.reduce((a, b) => a + b, 0) / nums.length;
-      return `✅ Mean: ${mean}`;
-    }
-
-    function findMedian(expr) {
-      const nums = expr.split(",").map(n => parseFloat(n.trim())).sort((a, b) => a - b);
-      if (nums.some(isNaN)) return "⚠️ Invalid numbers.";
-      const mid = Math.floor(nums.length / 2);
-      const median = nums.length % 2 === 0 ? (nums[mid - 1] + nums[mid]) / 2 : nums[mid];
-      return `✅ Median: ${median}`;
-    }
-
-    function findMode(expr) {
-      const nums = expr.split(",").map(n => parseFloat(n.trim()));
-      if (nums.some(isNaN)) return "⚠️ Invalid numbers.";
-      const freq = {};
-      nums.forEach(n => freq[n] = (freq[n] || 0) + 1);
-      const maxFreq = Math.max(...Object.values(freq));
-      const modes = Object.keys(freq).filter(k => freq[k] == maxFreq);
-      return `✅ Mode: ${modes.join(", ")}`;
-    }
-
-    function findRange(expr) {
-      const nums = expr.split(",").map(n => parseFloat(n.trim()));
-      if (nums.some(isNaN)) return "⚠️ Invalid numbers.";
-      const range = Math.max(...nums) - Math.min(...nums);
-      return `✅ Range: ${range}`;
-    }
-  </script>
-</body>
-  </html>
+      if (
