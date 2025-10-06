@@ -89,14 +89,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎓Math Console</h1>
-    <p>Type a math problem like:<br>
-      <code>what is 3 + 4 × 2</code><br>
-      <code>solve 2x + 5 = 15</code><br>
-      <code>derive x^3 + 2x</code><br>
-      <code>integrate 3x^2</code><br>
-      <code>evaluate sin(30)</code><br>
-      <code>matrix [[1,2],[3,4]] * [[2,0],[1,2]]</code>
+    <h1>🧮 Math Console</h1>
+    <p>
+      This is your math helper. You can type problems like “what is 2 + 3”, “solve 2x + 5 = 15”, or “mean of 4, 6, 8”.
+      It works for little kids who are learning to count, and big kids who are learning algebra, calculus, or even college math.
+      If you’re stuck, scroll down to find videos that explain how to do the math step by step.
     </p>
 
     <input type="text" id="mathInput" placeholder="Type your math question here...">
@@ -134,8 +131,16 @@
           output = evaluateTrig(input.replace("evaluate", "").trim());
         } else if (input.startsWith("matrix")) {
           output = matrixMultiply(input.replace("matrix", "").trim());
+        } else if (input.startsWith("mean of")) {
+          output = findMean(input.replace("mean of", "").trim());
+        } else if (input.startsWith("median of")) {
+          output = findMedian(input.replace("median of", "").trim());
+        } else if (input.startsWith("mode of")) {
+          output = findMode(input.replace("mode of", "").trim());
+        } else if (input.startsWith("range of")) {
+          output = findRange(input.replace("range of", "").trim());
         } else {
-          output = "⚠️ Try using what is, solve, simplify, factor, derive, integrate, evaluate, or matrix.";
+          output = "⚠️ Try using what is, solve, simplify, factor, derive, integrate, evaluate, matrix, mean of, median of, mode of, or range of.";
         }
       } catch (err) {
         output = "⚠️ Error: " + err.message;
@@ -208,6 +213,7 @@
         return "⚠️ Matrix format error. Use [[a,b],[c,d]] * [[e,f],[g,h]]";
       }
     }
-  </script>
-</body>
-    </html>
+
+    function findMean(expr) {
+      const nums = expr.split(",").map(n => parseFloat(n.trim()));
+      if (nums.some(isNaN)) return "⚠️[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/ikalco/LearningNeuralNetwork/tree/d6a4b2e2dc56689c4a7e3d55207e67011b63bdf2/helper.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/tdajs/normal-form/tree/1db1ed33912bb4c6122d7ab682d7149020650766/src%2Futils.ts?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")
