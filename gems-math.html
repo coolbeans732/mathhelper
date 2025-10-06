@@ -3,90 +3,114 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GEMS Math Curriculum</title>
+  <title>GEMS Math Engine</title>
+  <link rel="stylesheet" href="style.css" />
   <style>
-    body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #fffaf0;
+    .engine {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 30px;
+      text-align: center;
     }
-    #pageSwitcher {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      margin-bottom: 20px;
     }
-    select {
-      padding: 5px;
-      font-size: 14px;
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 10px;
+      background: #4b9cd3;
+      color: white;
+      cursor: pointer;
     }
-    h2 {
-      margin-top: 30px;
-      color: #333;
+    button:hover {
+      background: #3a8ac0;
     }
-    ul {
-      margin-left: 20px;
+    .output {
+      margin-top: 20px;
+      font-size: 1.1em;
     }
   </style>
 </head>
 <body>
 
-  <div id="pageSwitcher">
-    <select onchange="switchPage(this.value)">
-      <option value="">🔀 Switch Page</option>
-      <option value="https://coolbeans732.github.io/gems-math/">GEMS Math Curriculum</option>
-      <option value="https://coolbeans732.github.io/standard-math/">Standard Math Curriculum</option>
-    </select>
+  <header>
+    <h1>GEMS Math Engine</h1>
+    <p>Type a challenge phrase or number theory input</p>
+  </header>
+
+  <div class="engine">
+    <input type="text" id="gemsInput" placeholder="e.g. What’s 17 mod 5 or Find primes under 30" />
+    <button onclick="processGEMS()">Run Challenge</button>
+    <div class="output" id="gemsOutput"></div>
   </div>
 
-  <h1>GEMS Math Curriculum (Webb City Middle School)</h1>
-
-  <h2>🔍 Advanced Problem Solving</h2>
-  <ul>
-    <li>Multi-step logic puzzles</li>
-    <li>Real-world applications</li>
-    <li>Open-ended investigations</li>
-  </ul>
-
-  <h2>🧠 Critical & Creative Thinking</h2>
-  <ul>
-    <li>Divergent math challenges</li>
-    <li>Math-based design projects</li>
-    <li>Strategy games and simulations</li>
-  </ul>
-
-  <h2>📊 Data Science & Research</h2>
-  <ul>
-    <li>Analyzing real datasets</li>
-    <li>Creating surveys and interpreting results</li>
-    <li>Visualizing data with graphs and models</li>
-  </ul>
-
-  <h2>🧮 Enriched Math Topics</h2>
-  <ul>
-    <li>Intro to algebra and geometry</li>
-    <li>Modular arithmetic</li>
-    <li>Number theory and cryptography</li>
-    <li>Math history and famous problems</li>
-  </ul>
-
-  <h2>🌐 Interdisciplinary Integration</h2>
-  <ul>
-    <li>Math + science: physics simulations</li>
-    <li>Math + art: tessellations, fractals</li>
-    <li>Math + coding: Python logic puzzles</li>
-  </ul>
-
-  <h2>🧭 Personal Growth & Leadership</h2>
-  <ul>
-    <li>Group collaboration on math challenges</li>
-    <li>Presenting solutions to peers</li>
-    <li>Reflecting on problem-solving strategies</li>
-  </ul>
+  <footer>
+    Built by Archie • GEMS Society Engine
+  </footer>
 
   <script>
-    function switchPage(url) {
-      if (url) window.location.href = url;
+    function processGEMS() {
+      const input = document.getElementById("gemsInput").value.trim();
+      const output = document.getElementById("gemsOutput");
+
+      if (!input) {
+        output.innerHTML = "Enter a challenge phrase or number theory input.";
+        return;
+      }
+
+      // Modular arithmetic
+      const modMatch = input.match(/(\d+)\s*mod\s*(\d+)/i);
+      if (modMatch) {
+        const a = parseInt(modMatch[1]);
+        const b = parseInt(modMatch[2]);
+        const result = a % b;
+        output.innerHTML = `${a} mod ${b} = ${result}`;
+        return;
+      }
+
+      // Prime finder
+      const primeMatch = input.match(/primes?\s+(under|below)\s+(\d+)/i);
+      if (primeMatch) {
+        const limit = parseInt(primeMatch[2]);
+        const primes = [];
+        for (let i = 2; i < limit; i++) {
+          if (isPrime(i)) primes.push(i);
+        }
+        output.innerHTML = `Primes under ${limit}: ${primes.join(", ")}`;
+        return;
+      }
+
+      // Logic puzzle starter
+      if (/logic|riddle|puzzle/i.test(input)) {
+        output.innerHTML = `🔍 Here's a starter: "Three kids share 15 marbles. Each gets a different odd number. How?"`;
+        return;
+      }
+
+      // Raw math fallback
+      try {
+        const result = eval(input);
+        output.innerHTML = `Answer: ${result}`;
+      } catch (e) {
+        output.innerHTML = "Could not understand that input.";
+      }
+    }
+
+    function isPrime(n) {
+      if (n < 2) return false;
+      for (let i = 2; i <= Math.sqrt(n); i++) {
+        if (n % i === 0) return false;
+      }
+      return true;
     }
   </script>
 
