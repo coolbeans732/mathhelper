@@ -1,117 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>GEMS Math Console</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GEMS Console</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #f0f0ff, #fff0f5);
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 16px;
+      font-family: sans-serif;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      background: #f4f4f4;
     }
-    h1 {
-      text-align: center;
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #5a2;
+    #pageSwitcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
     }
-    p {
-      text-align: center;
-      font-size: 1.1em;
-      margin-bottom: 20px;
+    select {
+      padding: 5px;
+      font-size: 14px;
     }
     input, button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      margin: 5px;
+      padding: 8px;
+      font-size: 16px;
     }
-    input {
-      border: 2px solid #5a2;
-    }
-    button {
-      background-color: #5a2;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #3a1;
-    }
-    .result {
+    #output {
       margin-top: 20px;
-      background: #f0fff0;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 1.1em;
-      white-space: pre-wrap;
-    }
-    .toggle {
-      margin-top: 20px;
-      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔮 GEMS Math Console</h1>
-    <p>
-      This console understands real kid phrasing. Try “middle number of 3, 5, 7” or “25% of 80”.
-      Toggle challenge mode for randomized problems. Matrix ops and stealth logic are built in.
-    </p>
 
-    <input type="text" id="mathInput" placeholder="Type your math question here...">
-    <button onclick="processGEMS()">Answer</button>
-    <div class="result" id="resultBox">Your answer will appear here.</div>
-
-    <div class="toggle">
-      <label>
-        <input type="checkbox" id="challengeToggle"> Activate Challenge Mode
-      </label>
-    </div>
+  <div id="pageSwitcher">
+    <select onchange="switchPage(this.value)">
+      <option value="">🔀 Switch Page</option>
+      <option value="https://coolbeans732.github.io/gems-console/">GEMS Console</option>
+      <option value="https://coolbeans732.github.io/mathhelper/">Math Helper</option>
+    </select>
   </div>
 
+  <h1>GEMS Console</h1>
+  <input type="text" id="mathInput" placeholder="Enter math expression..." />
+  <button onclick="calculate()">Calculate</button>
+  <div id="output"></div>
+
   <script>
-    function processGEMS() {
-      const input = document.getElementById('mathInput').value.trim().toLowerCase();
-      const resultBox = document.getElementById('resultBox');
-      const challenge = document.getElementById('challengeToggle').checked;
-      let output = "";
-
-      if (challenge) {
-        output = generateChallenge();
-      } else if (/^[0-9+\-*/().\s%]+$/.test(input)) {
-        try {
-          const cleaned = input.replace(/%/g, "/100*");
-          const result = eval(cleaned);
-          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated using order of operations.`;
-        } catch {
-          output = "⚠️ Couldn’t evaluate that expression.";
-        }
-      } else {
-        output = matchPhrase(input);
-      }
-
-      resultBox.textContent = output;
+    function switchPage(url) {
+      if (url) window.location.href = url;
     }
 
-    function generateChallenge() {
-      const challenges = [
-        "What is 15% of 80?",
-        "Solve 3x - 7 = 11",
-        "Find the median of 2, 9, 4, 7
+    function calculate() {
+      const input = document.getElementById("mathInput").value;
+      let result;
+      try {
+        result = eval(input);
+      } catch {
+        result = "Invalid expression";
+      }
+      document.getElementById("output").textContent = `Result: ${result}`;
+    }
+  </script>
+
+</body>
+</html>
