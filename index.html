@@ -95,11 +95,14 @@
 
       try {
         if (/^[0-9+\-*/().\s%]+$/.test(input)) {
-          output = "✅ " + eval(input.replace(/%/g, "/100*"));
+          const cleaned = input.replace(/%/g, "/100*");
+          const result = eval(cleaned);
+          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated the expression step-by-step using order of operations.`;
         } else if (input.startsWith("mean of")) {
           const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
-          const mean = nums.reduce((a, b) => a + b, 0) / nums.length;
-          output = `✅ Mean: ${mean}`;
+          const sum = nums.reduce((a, b) => a + b, 0);
+          const mean = sum / nums.length;
+          output = `✅ Mean: ${mean}\nExplanation: Add all numbers (${nums.join(" + ")}) to get ${sum}, then divide by ${nums.length}.`;
         } else {
           output = "⚠️ Try a math expression or 'mean of'.";
         }
