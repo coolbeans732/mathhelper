@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Math Helper</title>
+  <title>Standard Math Curriculum</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
-      background: #e8f0fe;
+      background: #f0f8ff;
     }
     #pageSwitcher {
       position: fixed;
@@ -20,14 +20,12 @@
       padding: 5px;
       font-size: 14px;
     }
-    input, button {
-      margin: 5px;
-      padding: 8px;
-      font-size: 16px;
+    h2 {
+      margin-top: 30px;
+      color: #333;
     }
-    #output {
-      margin-top: 20px;
-      font-weight: bold;
+    ul {
+      margin-left: 20px;
     }
   </style>
 </head>
@@ -36,38 +34,60 @@
   <div id="pageSwitcher">
     <select onchange="switchPage(this.value)">
       <option value="">🔀 Switch Page</option>
-      <option value="https://coolbeans732.github.io/gems-console/">GEMS Console</option>
-      <option value="https://coolbeans732.github.io/mathhelper/">Math Helper</option>
+      <option value="https://coolbeans732.github.io/gems-math/">GEMS Math Curriculum</option>
+      <option value="https://coolbeans732.github.io/standard-math/">Standard Math Curriculum</option>
     </select>
   </div>
 
-  <h1>Math Helper</h1>
-  <input type="text" id="helperInput" placeholder="Type a math question..." />
-  <button onclick="respond()">Help Me</button>
-  <div id="output"></div>
+  <h1>Standard Math Curriculum (Webb City Middle School)</h1>
+
+  <h2>🧮 Numbers & Operations</h2>
+  <ul>
+    <li>Place value and number sense</li>
+    <li>Operations with whole numbers, decimals, fractions</li>
+    <li>Ratios, rates, and percents</li>
+    <li>Prime factorization, GCF, LCM</li>
+  </ul>
+
+  <h2>📐 Geometry</h2>
+  <ul>
+    <li>Area, perimeter, surface area, volume</li>
+    <li>Properties of 2D and 3D shapes</li>
+    <li>Angle relationships</li>
+    <li>Coordinate plane geometry</li>
+    <li>Transformations: translations, rotations, reflections, dilations</li>
+  </ul>
+
+  <h2>📊 Data & Statistics</h2>
+  <ul>
+    <li>Mean, median, mode, range</li>
+    <li>Box plots, histograms, dot plots</li>
+    <li>Probability: simple and compound</li>
+    <li>Interpreting graphs and tables</li>
+  </ul>
+
+  <h2>🧠 Algebraic Thinking</h2>
+  <ul>
+    <li>Expressions and equations</li>
+    <li>Solving one- and two-step equations</li>
+    <li>Inequalities</li>
+    <li>Patterns and sequences</li>
+    <li>Linear relationships and graphing</li>
+  </ul>
+
+  <h2>📈 Functions (Grade 8)</h2>
+  <ul>
+    <li>Function notation</li>
+    <li>Comparing linear and nonlinear functions</li>
+    <li>Slope and rate of change</li>
+    <li>Systems of equations</li>
+  </ul>
 
   <script>
     function switchPage(url) {
       if (url) window.location.href = url;
     }
-
-    function respond() {
-      const input = document.getElementById("helperInput").value.toLowerCase();
-      let response = "Sorry, I don't recognize that topic yet.";
-
-      if (input.includes("mean") || input.includes("average")) {
-        response = "To find the mean, add all numbers and divide by how many there are.";
-      } else if (input.includes("median")) {
-        response = "To find the median, sort the numbers and pick the middle one.";
-      } else if (input.includes("mode")) {
-        response = "The mode is the number that appears most often.";
-      } else if (input.includes("range")) {
-        response = "Range is the difference between the highest and lowest numbers.";
-      }
-
-      document.getElementById("output").textContent = response;
-    }
   </script>
 
 </body>
-</html>
+      </html>
