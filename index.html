@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MATH HELPER</title>
+  <title>Math Console</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -16,7 +16,7 @@
       padding: 40px 20px;
     }
     .container {
-      max-width: 700px;
+      max-width: 800px;
       width: 100%;
       background: #ffffff;
       border-radius: 16px;
@@ -71,9 +71,14 @@
       padding: 15px;
       border-radius: 10px;
     }
+    .links h2 {
+      font-size: 1.2em;
+      margin-bottom: 10px;
+      color: #2a6;
+    }
     .links a {
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: #2a6;
       text-decoration: none;
     }
@@ -84,8 +89,9 @@
 </head>
 <body>
   <div class="container">
-    <h1>🎓 Math</h1>
+    <h1>🎓Math Console</h1>
     <p>Type a math problem like:<br>
+      <code>what is 3 + 4 × 2</code><br>
       <code>solve 2x + 5 = 15</code><br>
       <code>derive x^3 + 2x</code><br>
       <code>integrate 3x^2</code><br>
@@ -98,11 +104,10 @@
     <div class="result" id="resultBox">Your answer will appear here.</div>
 
     <div class="links">
-      <strong>📚 Learn the Math:</strong>
-      <a href="https://www.youtube.com/watch?v=5yfh5cf4-0w" target="_blank">Derivatives in Calculus</a>
-      <a href="https://www.youtube.com/watch?v=o75AqTInKDU" target="_blank">Integrals & Antiderivatives</a>
-      <a href="https://www.youtube.com/watch?v=gCR6_ghpMyI" target="_blank">Trig Functions & Unit Circle</a>
-      <a href="https://www.youtube.com/watch?v=2spTnAiQg4M" target="_blank">Matrix Multiplication</a>
+      <h2>📚 Learn by Grade Level</h2>
+      <a href="https://www.mathgametime.com/math-videos" target="_blank">Pre-K to Grade 7 — Math Game Time</a>
+      <a href="https://www.mashupmath.com/math-videos-for-kids" target="_blank">Grades 1–12 — Mashup Math</a>
+      <a href="https://www.khanacademy.org/math" target="_blank">Pre-K to College — Khan Academy</a>
     </div>
   </div>
 
@@ -113,7 +118,9 @@
       let output = "";
 
       try {
-        if (input.startsWith("solve")) {
+        if (input.startsWith("what is")) {
+          output = "✅ " + evalBasic(input.replace("what is", "").trim());
+        } else if (input.startsWith("solve")) {
           output = solveEquation(input.replace("solve", "").trim());
         } else if (input.startsWith("simplify")) {
           output = simplifyExpression(input.replace("simplify", "").trim());
@@ -128,7 +135,7 @@
         } else if (input.startsWith("matrix")) {
           output = matrixMultiply(input.replace("matrix", "").trim());
         } else {
-          output = "⚠️ Try using solve, simplify, factor, derive, integrate, evaluate, or matrix.";
+          output = "⚠️ Try using what is, solve, simplify, factor, derive, integrate, evaluate, or matrix.";
         }
       } catch (err) {
         output = "⚠️ Error: " + err.message;
@@ -137,41 +144,44 @@
       resultBox.textContent = output;
     }
 
+    function evalBasic(expr) {
+      return eval(expr);
+    }
+
     function solveEquation(eq) {
-      if (eq === "2x + 5 = 15") return "✅ x = 5";
-      if (eq === "x - 3 = 7") return "✅ x = 10";
-      if (eq === "3x = 12") return "✅ x = 4";
+      if (eq === "2x + 5 = 15") return "x = 5";
+      if (eq === "x - 3 = 7") return "x = 10";
       return "⚠️ Equation not recognized.";
     }
 
     function simplifyExpression(expr) {
-      if (expr === "3x + 2x") return "✅ 5x";
-      if (expr === "4a - 2a") return "✅ 2a";
+      if (expr === "3x + 2x") return "5x";
+      if (expr === "4a - 2a") return "2a";
       return "⚠️ Simplification not recognized.";
     }
 
     function factorQuadratic(expr) {
-      if (expr === "x^2 + 5x + 6") return "✅ (x + 2)(x + 3)";
-      if (expr === "x^2 - 9") return "✅ (x + 3)(x - 3)";
+      if (expr === "x^2 + 5x + 6") return "(x + 2)(x + 3)";
+      if (expr === "x^2 - 9") return "(x + 3)(x - 3)";
       return "⚠️ Factoring not recognized.";
     }
 
     function derive(expr) {
-      if (expr === "x^3 + 2x") return "✅ 3x^2 + 2";
-      if (expr === "5x^2") return "✅ 10x";
+      if (expr === "x^3 + 2x") return "3x^2 + 2";
+      if (expr === "5x^2") return "10x";
       return "⚠️ Derivative not recognized.";
     }
 
     function integrate(expr) {
-      if (expr === "3x^2") return "✅ x^3 + C";
-      if (expr === "2x") return "✅ x^2 + C";
+      if (expr === "3x^2") return "x^3 + C";
+      if (expr === "2x") return "x^2 + C";
       return "⚠️ Integral not recognized.";
     }
 
     function evaluateTrig(expr) {
-      if (expr === "sin(30)") return "✅ 0.5";
-      if (expr === "cos(60)") return "✅ 0.5";
-      if (expr === "tan(45)") return "✅ 1";
+      if (expr === "sin(30)") return "0.5";
+      if (expr === "cos(60)") return "0.5";
+      if (expr === "tan(45)") return "1";
       return "⚠️ Trig value not recognized.";
     }
 
@@ -200,4 +210,4 @@
     }
   </script>
 </body>
-</html>
+    </html>
