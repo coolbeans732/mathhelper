@@ -61,27 +61,6 @@
       font-size: 1.1em;
       white-space: pre-wrap;
     }
-    .links {
-      margin-top: 30px;
-      font-size: 0.95em;
-      background: #f9f9f9;
-      padding: 15px;
-      border-radius: 10px;
-    }
-    .links h2 {
-      font-size: 1.2em;
-      margin-bottom: 10px;
-      color: #2a6;
-    }
-    .links a {
-      display: block;
-      margin-bottom: 6px;
-      color: #2a6;
-      text-decoration: none;
-    }
-    .links a:hover {
-      text-decoration: underline;
-    }
     #gemsLink {
       display: none;
       margin-top: 20px;
@@ -93,7 +72,7 @@
   <div class="container">
     <h1>🧮 Math Console</h1>
     <p>
-      Type a math question like “what is 2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
+      Type a math question like “2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
       This console follows Webb City’s 6th grade curriculum. For advanced tools, type the secret phrase below.
     </p>
 
@@ -106,13 +85,6 @@
     <div id="gemsLink">
       <a href="gems-console.html">🔮 Enter GEMS Math Console</a>
     </div>
-
-    <div class="links">
-      <h2>📚 Learn by Grade Level</h2>
-      <a href="https://www.mathgametime.com/math-videos" target="_blank">Pre-K to Grade 7 — Math Game Time</a>
-      <a href="https://www.mashupmath.com/math-videos-for-kids" target="_blank">Grades 1–12 — Mashup Math</a>
-      <a href="https://www.khanacademy.org/math" target="_blank">Pre-K to College — Khan Academy</a>
-    </div>
   </div>
 
   <script>
@@ -122,14 +94,14 @@
       let output = "";
 
       try {
-        if (input.startsWith("what is")) {
-          output = "✅ " + eval(input.replace("what is", "").trim());
+        if (/^[0-9+\-*/().\s%]+$/.test(input)) {
+          output = "✅ " + eval(input.replace(/%/g, "/100*"));
         } else if (input.startsWith("mean of")) {
           const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
           const mean = nums.reduce((a, b) => a + b, 0) / nums.length;
           output = `✅ Mean: ${mean}`;
         } else {
-          output = "⚠️ Try using 'what is' or 'mean of'. More topics coming soon.";
+          output = "⚠️ Try a math expression or 'mean of'.";
         }
       } catch (err) {
         output = "⚠️ Error: " + err.message;
@@ -148,4 +120,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
