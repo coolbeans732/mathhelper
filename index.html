@@ -1,126 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Math Console</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Helper</title>
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, #e0f7ff, #fff0f5);
-      color: #333;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-    .container {
-      max-width: 800px;
-      width: 100%;
-      background: #ffffff;
-      border-radius: 16px;
+      font-family: sans-serif;
       padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      background: #e8f0fe;
     }
-    h1 {
-      text-align: center;
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #2a6;
+    #pageSwitcher {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
     }
-    p {
-      text-align: center;
-      font-size: 1.1em;
-      margin-bottom: 20px;
+    select {
+      padding: 5px;
+      font-size: 14px;
     }
     input, button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
-      border-radius: 10px;
-      margin-bottom: 10px;
+      margin: 5px;
+      padding: 8px;
+      font-size: 16px;
     }
-    input {
-      border: 2px solid #2a6;
-    }
-    button {
-      background-color: #2a6;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1c4;
-    }
-    .result {
+    #output {
       margin-top: 20px;
-      background: #e6fff2;
-      padding: 15px;
-      border-radius: 10px;
-      font-size: 1.1em;
-      white-space: pre-wrap;
-    }
-    #gemsLink {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>🧮 Math Console</h1>
-    <p>
-      Type a math question like “2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
-      This console follows Webb City’s 6th grade curriculum. For advanced tools, type the secret phrase below.
-    </p>
 
-    <input type="text" id="mathInput" placeholder="Type your math question here...">
-    <button onclick="processMath()">Answer</button>
-    <div class="result" id="resultBox">Your answer will appear here.</div>
-
-    <input type="text" id="unlockInput" placeholder="Type secret phrase to unlock GEMS...">
-    <button onclick="checkUnlock()">Unlock GEMS Console</button>
-    <div id="gemsLink">
-      <a href="gems-console.html">🔮 Enter GEMS Math Console</a>
-    </div>
+  <div id="pageSwitcher">
+    <select onchange="switchPage(this.value)">
+      <option value="">🔀 Switch Page</option>
+      <option value="https://coolbeans732.github.io/gems-console/">GEMS Console</option>
+      <option value="https://coolbeans732.github.io/mathhelper/">Math Helper</option>
+    </select>
   </div>
 
+  <h1>Math Helper</h1>
+  <input type="text" id="helperInput" placeholder="Type a math question..." />
+  <button onclick="respond()">Help Me</button>
+  <div id="output"></div>
+
   <script>
-    function processMath() {
-      const input = document.getElementById('mathInput').value.trim().toLowerCase();
-      const resultBox = document.getElementById('resultBox');
-      let output = "";
-
-      try {
-        if (/^[0-9+\-*/().\s%]+$/.test(input)) {
-          const cleaned = input.replace(/%/g, "/100*");
-          const result = eval(cleaned);
-          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated the expression step-by-step using order of operations.`;
-        } else if (input.startsWith("mean of")) {
-          const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
-          const sum = nums.reduce((a, b) => a + b, 0);
-          const mean = sum / nums.length;
-          output = `✅ Mean: ${mean}\nExplanation: Add all numbers (${nums.join(" + ")}) to get ${sum}, then divide by ${nums.length}.`;
-        } else {
-          output = "⚠️ Try a math expression or 'mean of'.";
-        }
-      } catch (err) {
-        output = "⚠️ Error: " + err.message;
-      }
-
-      resultBox.textContent = output;
+    function switchPage(url) {
+      if (url) window.location.href = url;
     }
 
-    function checkUnlock() {
-      const phrase = document.getElementById('unlockInput').value.trim().toLowerCase();
-      if (phrase === "gems unlock" || phrase === "open gems") {
-        document.getElementById('gemsLink').style.display = "block";
-      } else {
-        alert("❌ Incorrect phrase. Try again.");
+    function respond() {
+      const input = document.getElementById("helperInput").value.toLowerCase();
+      let response = "Sorry, I don't recognize that topic yet.";
+
+      if (input.includes("mean") || input.includes("average")) {
+        response = "To find the mean, add all numbers and divide by how many there are.";
+      } else if (input.includes("median")) {
+        response = "To find the median, sort the numbers and pick the middle one.";
+      } else if (input.includes("mode")) {
+        response = "The mode is the number that appears most often.";
+      } else if (input.includes("range")) {
+        response = "Range is the difference between the highest and lowest numbers.";
       }
+
+      document.getElementById("output").textContent = response;
     }
   </script>
+
 </body>
 </html>
