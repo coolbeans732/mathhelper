@@ -34,24 +34,21 @@
       font-size: 1.1em;
       margin-bottom: 20px;
     }
-    input {
+    input, button {
       width: 100%;
       padding: 12px;
       font-size: 1em;
-      border: 2px solid #2a6;
       border-radius: 10px;
       margin-bottom: 10px;
     }
+    input {
+      border: 2px solid #2a6;
+    }
     button {
-      width: 100%;
-      padding: 12px;
-      font-size: 1em;
       background-color: #2a6;
       color: white;
       border: none;
-      border-radius: 10px;
       cursor: pointer;
-      margin-bottom: 10px;
     }
     button:hover {
       background-color: #1c4;
@@ -85,20 +82,30 @@
     .links a:hover {
       text-decoration: underline;
     }
+    #gemsLink {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>🧮 Math Console</h1>
     <p>
-      This is your math helper. You can type problems like “what is 2 + 3”, “solve 2x + 5 = 15”, or “mean of 4, 6, 8”.
-      It works for little kids who are learning to count, and big kids who are learning algebra, calculus, or even college math.
-      If you’re stuck, scroll down to find videos that explain how to do the math step by step.
+      Type a math question like “what is 2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
+      This console follows Webb City’s 6th grade curriculum. For advanced tools, type the secret phrase below.
     </p>
 
     <input type="text" id="mathInput" placeholder="Type your math question here...">
-    <button onclick="processMath()">Go</button>
+    <button onclick="processMath()">Answer</button>
     <div class="result" id="resultBox">Your answer will appear here.</div>
+
+    <input type="text" id="unlockInput" placeholder="Type secret phrase to unlock GEMS...">
+    <button onclick="checkUnlock()">Unlock GEMS Console</button>
+    <div id="gemsLink">
+      <a href="gems-console.html">🔮 Enter GEMS Math Console</a>
+    </div>
 
     <div class="links">
       <h2>📚 Learn by Grade Level</h2>
@@ -116,31 +123,13 @@
 
       try {
         if (input.startsWith("what is")) {
-          output = "✅ " + evalBasic(input.replace("what is", "").trim());
-        } else if (input.startsWith("solve")) {
-          output = solveEquation(input.replace("solve", "").trim());
-        } else if (input.startsWith("simplify")) {
-          output = simplifyExpression(input.replace("simplify", "").trim());
-        } else if (input.startsWith("factor")) {
-          output = factorQuadratic(input.replace("factor", "").trim());
-        } else if (input.startsWith("derive")) {
-          output = derive(input.replace("derive", "").trim());
-        } else if (input.startsWith("integrate")) {
-          output = integrate(input.replace("integrate", "").trim());
-        } else if (input.startsWith("evaluate")) {
-          output = evaluateTrig(input.replace("evaluate", "").trim());
-        } else if (input.startsWith("matrix")) {
-          output = matrixMultiply(input.replace("matrix", "").trim());
+          output = "✅ " + eval(input.replace("what is", "").trim());
         } else if (input.startsWith("mean of")) {
-          output = findMean(input.replace("mean of", "").trim());
-        } else if (input.startsWith("median of")) {
-          output = findMedian(input.replace("median of", "").trim());
-        } else if (input.startsWith("mode of")) {
-          output = findMode(input.replace("mode of", "").trim());
-        } else if (input.startsWith("range of")) {
-          output = findRange(input.replace("range of", "").trim());
+          const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
+          const mean = nums.reduce((a, b) => a + b, 0) / nums.length;
+          output = `✅ Mean: ${mean}`;
         } else {
-          output = "⚠️ Try using what is, solve, simplify, factor, derive, integrate, evaluate, matrix, mean of, median of, mode of, or range of.";
+          output = "⚠️ Try using 'what is' or 'mean of'. More topics coming soon.";
         }
       } catch (err) {
         output = "⚠️ Error: " + err.message;
@@ -149,71 +138,14 @@
       resultBox.textContent = output;
     }
 
-    function evalBasic(expr) {
-      return eval(expr);
-    }
-
-    function solveEquation(eq) {
-      if (eq === "2x + 5 = 15") return "x = 5";
-      if (eq === "x - 3 = 7") return "x = 10";
-      return "⚠️ Equation not recognized.";
-    }
-
-    function simplifyExpression(expr) {
-      if (expr === "3x + 2x") return "5x";
-      if (expr === "4a - 2a") return "2a";
-      return "⚠️ Simplification not recognized.";
-    }
-
-    function factorQuadratic(expr) {
-      if (expr === "x^2 + 5x + 6") return "(x + 2)(x + 3)";
-      if (expr === "x^2 - 9") return "(x + 3)(x - 3)";
-      return "⚠️ Factoring not recognized.";
-    }
-
-    function derive(expr) {
-      if (expr === "x^3 + 2x") return "3x^2 + 2";
-      if (expr === "5x^2") return "10x";
-      return "⚠️ Derivative not recognized.";
-    }
-
-    function integrate(expr) {
-      if (expr === "3x^2") return "x^3 + C";
-      if (expr === "2x") return "x^2 + C";
-      return "⚠️ Integral not recognized.";
-    }
-
-    function evaluateTrig(expr) {
-      if (expr === "sin(30)") return "0.5";
-      if (expr === "cos(60)") return "0.5";
-      if (expr === "tan(45)") return "1";
-      return "⚠️ Trig value not recognized.";
-    }
-
-    function matrixMultiply(expr) {
-      try {
-        const parts = expr.split("*");
-        const A = JSON.parse(parts[0].trim());
-        const B = JSON.parse(parts[1].trim());
-        const result = [];
-
-        for (let i = 0; i < A.length; i++) {
-          result[i] = [];
-          for (let j = 0; j < B[0].length; j++) {
-            let sum = 0;
-            for (let k = 0; k < A[0].length; k++) {
-              sum += A[i][k] * B[k][j];
-            }
-            result[i][j] = sum;
-          }
-        }
-
-        return "✅ Result:\n" + JSON.stringify(result);
-      } catch {
-        return "⚠️ Matrix format error. Use [[a,b],[c,d]] * [[e,f],[g,h]]";
+    function checkUnlock() {
+      const phrase = document.getElementById('unlockInput').value.trim().toLowerCase();
+      if (phrase === "gems unlock" || phrase === "open gems") {
+        document.getElementById('gemsLink').style.display = "block";
+      } else {
+        alert("❌ Incorrect phrase. Try again.");
       }
     }
-
-    function findMean(expr) {
-      const nums = expr.split(",").map(n => parseFloat(n.trim()));
-      if (nums.some(isNaN)) return "⚠️[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/ikalco/LearningNeuralNetwork/tree/d6a4b2e2dc56689c4a7e3d55207e67011b63bdf2/helper.js?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "1")[43dcd9a7-70db-4a1f-b0ae-981daa162054](https://github.com/tdajs/normal-form/tree/1db1ed33912bb4c6122d7ab682d7149020650766/src%2Futils.ts?citationMarker=43dcd9a7-70db-4a1f-b0ae-981daa162054 "2")
+  </script>
+</body>
+  </html>
