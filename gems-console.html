@@ -3,12 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GEMS Console</title>
+  <title>GEMS Math Curriculum</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
-      background: #f4f4f4;
+      background: #fffaf0;
     }
     #pageSwitcher {
       position: fixed;
@@ -20,14 +20,12 @@
       padding: 5px;
       font-size: 14px;
     }
-    input, button {
-      margin: 5px;
-      padding: 8px;
-      font-size: 16px;
+    h2 {
+      margin-top: 30px;
+      color: #333;
     }
-    #output {
-      margin-top: 20px;
-      font-weight: bold;
+    ul {
+      margin-left: 20px;
     }
   </style>
 </head>
@@ -36,30 +34,59 @@
   <div id="pageSwitcher">
     <select onchange="switchPage(this.value)">
       <option value="">🔀 Switch Page</option>
-      <option value="https://coolbeans732.github.io/gems-console/">GEMS Console</option>
-      <option value="https://coolbeans732.github.io/mathhelper/">Math Helper</option>
+      <option value="https://coolbeans732.github.io/gems-math/">GEMS Math Curriculum</option>
+      <option value="https://coolbeans732.github.io/standard-math/">Standard Math Curriculum</option>
     </select>
   </div>
 
-  <h1>GEMS Console</h1>
-  <input type="text" id="mathInput" placeholder="Enter math expression..." />
-  <button onclick="calculate()">Calculate</button>
-  <div id="output"></div>
+  <h1>GEMS Math Curriculum (Webb City Middle School)</h1>
+
+  <h2>🔍 Advanced Problem Solving</h2>
+  <ul>
+    <li>Multi-step logic puzzles</li>
+    <li>Real-world applications</li>
+    <li>Open-ended investigations</li>
+  </ul>
+
+  <h2>🧠 Critical & Creative Thinking</h2>
+  <ul>
+    <li>Divergent math challenges</li>
+    <li>Math-based design projects</li>
+    <li>Strategy games and simulations</li>
+  </ul>
+
+  <h2>📊 Data Science & Research</h2>
+  <ul>
+    <li>Analyzing real datasets</li>
+    <li>Creating surveys and interpreting results</li>
+    <li>Visualizing data with graphs and models</li>
+  </ul>
+
+  <h2>🧮 Enriched Math Topics</h2>
+  <ul>
+    <li>Intro to algebra and geometry</li>
+    <li>Modular arithmetic</li>
+    <li>Number theory and cryptography</li>
+    <li>Math history and famous problems</li>
+  </ul>
+
+  <h2>🌐 Interdisciplinary Integration</h2>
+  <ul>
+    <li>Math + science: physics simulations</li>
+    <li>Math + art: tessellations, fractals</li>
+    <li>Math + coding: Python logic puzzles</li>
+  </ul>
+
+  <h2>🧭 Personal Growth & Leadership</h2>
+  <ul>
+    <li>Group collaboration on math challenges</li>
+    <li>Presenting solutions to peers</li>
+    <li>Reflecting on problem-solving strategies</li>
+  </ul>
 
   <script>
     function switchPage(url) {
       if (url) window.location.href = url;
-    }
-
-    function calculate() {
-      const input = document.getElementById("mathInput").value;
-      let result;
-      try {
-        result = eval(input);
-      } catch {
-        result = "Invalid expression";
-      }
-      document.getElementById("output").textContent = `Result: ${result}`;
     }
   </script>
 
