@@ -1,42 +1,144 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Math Helper</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>Math Console</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom right, #e0f7ff, #fff0f5);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 800px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #2a6;
+    }
+    p {
+      text-align: center;
+      font-size: 1.1em;
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+    input {
+      border: 2px solid #2a6;
+    }
+    button {
+      background-color: #2a6;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1c4;
+    }
+    .result {
+      margin-top: 20px;
+      background: #e6fff2;
+      padding: 15px;
+      border-radius: 10px;
+      font-size: 1.1em;
+      white-space: pre-wrap;
+    }
+    #gemsLink {
+      display: none;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .tutorialLink {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 1.1em;
+    }
+    .tutorialLink a {
+      color: #2a6;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .tutorialLink a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
+    <h1>🧮 Math Console</h1>
+    <p>
+      Type a math question like “2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
+      This console follows Webb City’s 6th grade curriculum. For advanced tools, type the secret phrase below.
+    </p>
 
-  <header>
-    <h1>Math Helper</h1>
-    <p>Choose your module or explore tutorials</p>
-  </header>
+    <input type="text" id="mathInput" placeholder="Type your math question here...">
+    <button onclick="processMath()">Answer</button>
+    <div class="result" id="resultBox">Your answer will appear here.</div>
 
-  <div class="grid">
-    <div class="card">
-      <div class="circle">📘</div>
-      <h2>Standard Curriculum</h2>
-      <a href="standard-math.html">Explore Topics</a>
+    <input type="text" id="unlockInput" placeholder="Type secret phrase to unlock GEMS...">
+    <button onclick="checkUnlock()">Unlock GEMS Console</button>
+    <div id="gemsLink">
+      <a href="gems-console.html">🔮 Enter GEMS Math Console</a>
     </div>
 
-    <div class="card">
-      <div class="circle">🧠</div>
-      <h2>GEMS Curriculum</h2>
-      <a href="gems-math.html">Advanced Modules</a>
-    </div>
-
-    <div class="card">
-      <div class="circle">🎥</div>
-      <h2>YouTube Tutorials</h2>
-      <a href="https://www.youtube.com/results?search_query=middle+school+math+tutorials" target="_blank">Watch Now</a>
+    <div class="tutorialLink">
+      <p>📘 Want to learn how the math works?</p>
+      <a href="tutorial.html">Go to the Math Tutorial Page</a>
     </div>
   </div>
 
-  <footer>
-    Built by Archie • Webb City Middle School • Mythic tools for real learners
-  </footer>
+  <script>
+    function processMath() {
+      const input = document.getElementById('mathInput').value.trim().toLowerCase();
+      const resultBox = document.getElementById('resultBox');
+      let output = "";
 
+      try {
+        if (/^[0-9+\-*/().\s%]+$/.test(input)) {
+          const cleaned = input.replace(/%/g, "/100*");
+          const result = eval(cleaned);
+          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated the expression step-by-step using order of operations.`;
+        } else if (input.startsWith("mean of")) {
+          const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
+          const sum = nums.reduce((a, b) => a + b, 0);
+          const mean = sum / nums.length;
+          output = `✅ Mean: ${mean}\nExplanation: Add all numbers (${nums.join(" + ")}) to get ${sum}, then divide by ${nums.length}.`;
+        } else {
+          output = "⚠️ Try a math expression or 'mean of'.";
+        }
+      } catch (err) {
+        output = "⚠️ Error: " + err.message;
+      }
+
+      resultBox.textContent = output;
+    }
+
+    function checkUnlock() {
+      const phrase = document.getElementById('unlockInput').value.trim().toLowerCase();
+      if (phrase === "gems unlock" || phrase === "open gems") {
+        document.getElementById('gemsLink').style.display = "block";
+      } else {
+        alert("❌ Incorrect phrase. Try again.");
+      }
+    }
+  </script>
 </body>
-</html>
+        </html>
