@@ -1,101 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Math Tutorial Hub</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
       background: linear-gradient(to bottom right, #f0fff0, #fff0ff);
-      color: #333;
+      color: #222;
       padding: 40px 20px;
     }
     .container {
       max-width: 900px;
       margin: auto;
       background: #fff;
-      border-radius: 16px;
+      border-radius: 20px;
       padding: 30px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
     h1 {
+      font-size: 2.6em;
       text-align: center;
-      font-size: 2.5em;
       color: #2a6;
-      margin-bottom: 20px;
+      margin: 0;
     }
     h2 {
-      color: #444;
-      margin-top: 30px;
+      font-size: 1.6em;
+      color: #2a6;
+      margin-bottom: 10px;
     }
     p {
       font-size: 1.1em;
-      margin-bottom: 10px;
-    }
-    .video {
-      margin: 10px 0 20px;
+      margin: 0 0 10px 0;
     }
     iframe {
       width: 100%;
-      height: 300px;
+      height: 315px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
+      margin-top: 10px;
     }
-    .back {
+    .footer {
       text-align: center;
+      font-size: 0.9em;
+      color: #888;
       margin-top: 40px;
-    }
-    .back a {
-      color: #2a6;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    .back a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>📘 Math Tutorial Hub</h1>
-    <p>Welcome to your guided math page. Each section explains a key topic from Webb City’s 6th grade curriculum using real kid phrasing and examples. Scroll down to learn and explore.</p>
+    <h1>Math Tutorial Hub</h1>
 
-    <h2>🔢 Number Sense</h2>
-    <p><strong>Decimals:</strong> A decimal is just a way to show part of a whole. For example, 0.5 means half. You line up the decimal points when adding or subtracting.</p>
-    <p><strong>Fractions:</strong> Fractions like 3/4 mean 3 parts out of 4. You can convert them to decimals by dividing: 3 ÷ 4 = 0.75.</p>
-    <p><strong>Percent:</strong> Percent means “out of 100.” So 25% of 80 is 0.25 × 80 = 20.</p>
-    <div class="video">
-      <iframe src="https://www.youtube.com/embed/JeVSmq1Nrpw" title="Decimals and Percents Tutorial"></iframe>
-    </div>
+    <section>
+      <h2>Number Sense</h2>
+      <p><strong>Decimals:</strong> A decimal is just a way to show part of a whole. For example, 0.5 means half. You line up the decimal points when adding or subtracting.</p>
+      <p><strong>Fractions:</strong> Fractions like 3/4 mean 3 parts out of 4. You can convert them to decimals by dividing: 3 ÷ 4 = 0.75.</p>
+      <p><strong>Percents:</strong> Percent means "out of 100." So 25% of 80 is 0.25 × 80 = 20.</p>
+      <iframe src="https://www.youtube.com/embed/JeVSmq1Nrpw" allowfullscreen></iframe>
+    </section>
 
-    <h2>🧮 Algebra</h2>
-    <p><strong>Expressions:</strong> An expression like 3x + 2 means “three times a number plus two.” You simplify by combining like terms.</p>
-    <p><strong>Equations:</strong> To solve 2x + 5 = 15, subtract 5 from both sides, then divide by 2. You get x = 5.</p>
-    <div class="video">
-      <iframe src="https://www.youtube.com/embed/3vZzYdZzvJk" title="Solving Equations Tutorial"></iframe>
-    </div>
+    <section>
+      <h2>Algebra</h2>
+      <p><strong>Variables:</strong> A variable is just a letter that stands for a number. If x + 3 = 7, then x must be 4.</p>
+      <p><strong>Expressions:</strong> An expression like 2x + 5 means “two times something, plus five.” You can plug in numbers to test it.</p>
+      <p><strong>Equations:</strong> Solving equations means finding the number that makes both sides equal.</p>
+      <iframe src="https://www.youtube.com/embed/3tYDD7gZfRQ" allowfullscreen></iframe>
+    </section>
 
-    <h2>📐 Geometry</h2>
-    <p><strong>Area:</strong> Area is how much space something covers. A rectangle is length × width. A triangle is ½ × base × height.</p>
-    <p><strong>Volume:</strong> Volume is how much space something takes up. A box is length × width × height.</p>
-    <div class="video">
-      <iframe src="https://www.youtube.com/embed/3Uuj6nA4e5I" title="Area and Volume Tutorial"></iframe>
-    </div>
+    <section>
+      <h2>Geometry</h2>
+      <p><strong>Area:</strong> Area means how much space is inside a shape. For rectangles, it’s length × width.</p>
+      <p><strong>Perimeter:</strong> Perimeter is the distance around a shape. Add up all the sides.</p>
+      <p><strong>Angles:</strong> A right angle is 90°. A straight line is 180°. Angles measure turns.</p>
+      <iframe src="https://www.youtube.com/embed/3bKuoH8CkFc" allowfullscreen></iframe>
+    </section>
 
-    <h2>📊 Statistics</h2>
-    <p><strong>Mean:</strong> Add all the numbers and divide by how many there are.</p>
-    <p><strong>Median:</strong> Put the numbers in order and find the middle one.</p>
-    <p><strong>Mode:</strong> The number that shows up the most.</p>
-    <p><strong>Range:</strong> Biggest number minus smallest number.</p>
-    <div class="video">
-      <iframe src="https://www.youtube.com/embed/1g3XwzE7b9g" title="Mean, Median, Mode Tutorial"></iframe>
-    </div>
-
-    <div class="back">
-      <a href="index.html">← Back to Math Console</a>
-    </div>
+    <div class="footer">Built by Archie</div>
   </div>
 </body>
-  </html>
+</html>
