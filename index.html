@@ -61,22 +61,22 @@
       font-size: 1.1em;
       white-space: pre-wrap;
     }
-    #gemsLink {
-      display: none;
-      margin-top: 20px;
-      text-align: center;
-    }
-    .tutorialLink {
+    .links {
       margin-top: 30px;
+      font-size: 1em;
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 10px;
       text-align: center;
-      font-size: 1.1em;
     }
-    .tutorialLink a {
+    .links a {
+      display: block;
+      margin: 8px 0;
       color: #2a6;
       text-decoration: none;
       font-weight: bold;
     }
-    .tutorialLink a:hover {
+    .links a:hover {
       text-decoration: underline;
     }
   </style>
@@ -85,23 +85,17 @@
   <div class="container">
     <h1>🧮 Math Console</h1>
     <p>
-      Type a math question like “2 + 3”, “mean of 4, 6, 8”, or “solve 2x + 5 = 15”.
-      This console follows Webb City’s 6th grade curriculum. For advanced tools, type the secret phrase below.
+      Type a math question like “2 + 3”, “mean of 4, 6, 8”, or “25% of 80”.  
+      This console follows Webb City’s 6th grade curriculum and explains how each answer is solved.
     </p>
 
     <input type="text" id="mathInput" placeholder="Type your math question here...">
     <button onclick="processMath()">Answer</button>
     <div class="result" id="resultBox">Your answer will appear here.</div>
 
-    <input type="text" id="unlockInput" placeholder="Type secret phrase to unlock GEMS...">
-    <button onclick="checkUnlock()">Unlock GEMS Console</button>
-    <div id="gemsLink">
-      <a href="gems-console.html">🔮 Enter GEMS Math Console</a>
-    </div>
-
-    <div class="tutorialLink">
-      <p>📘 Want to learn how the math works?</p>
-      <a href="tutorial.html">Go to the Math Tutorial Page</a>
+    <div class="links">
+      <a href="advanced-math.html">🔮 Advanced Math Console</a>
+      <a href="tutorial.html">📘 Math Tutorial Page</a>
     </div>
   </div>
 
@@ -115,7 +109,7 @@
         if (/^[0-9+\-*/().\s%]+$/.test(input)) {
           const cleaned = input.replace(/%/g, "/100*");
           const result = eval(cleaned);
-          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and evaluated the expression step-by-step using order of operations.`;
+          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and solved using order of operations.`;
         } else if (input.startsWith("mean of")) {
           const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
           const sum = nums.reduce((a, b) => a + b, 0);
@@ -130,15 +124,6 @@
 
       resultBox.textContent = output;
     }
-
-    function checkUnlock() {
-      const phrase = document.getElementById('unlockInput').value.trim().toLowerCase();
-      if (phrase === "gems unlock" || phrase === "open gems") {
-        document.getElementById('gemsLink').style.display = "block";
-      } else {
-        alert("❌ Incorrect phrase. Try again.");
-      }
-    }
   </script>
 </body>
-        </html>
+</html>
