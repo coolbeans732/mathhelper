@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Math Console</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GEMS Math Hub</title>
   <style>
-    * { box-sizing: border-box; }
     body {
       margin: 0;
       font-family: 'Segoe UI', sans-serif;
@@ -16,121 +15,90 @@
       align-items: center;
       padding: 40px 20px;
     }
-    .console {
+    header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      font-size: 2.8em;
+      color: #2a6;
+      margin: 0;
+    }
+    header p {
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
       width: 100%;
       max-width: 900px;
+    }
+    .card {
       background: #fff;
-      border-radius: 20px;
+      border-radius: 16px;
       padding: 30px;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    h1 {
-      font-size: 2.8em;
       text-align: center;
+      box-shadow: 0 0 12px rgba(0,0,0,0.05);
+    }
+    .circle {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+    .card h2 {
+      font-size: 1.4em;
+      margin-bottom: 12px;
       color: #2a6;
-      margin: 0;
     }
-    p {
-      font-size: 1.1em;
-      text-align: center;
-      margin: 0;
-    }
-    input {
-      width: 100%;
-      padding: 14px;
-      font-size: 1em;
-      border: 2px solid #2a6;
-      border-radius: 12px;
-    }
-    button {
-      width: 100%;
-      padding: 14px;
-      font-size: 1em;
-      background-color: #2a6;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1c4;
-    }
-    .result {
-      background: #e6fff2;
-      padding: 20px;
-      border-radius: 12px;
-      font-size: 1.1em;
-      white-space: pre-wrap;
-    }
-    .options {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+    .card a {
+      display: inline-block;
       margin-top: 10px;
-      text-align: center;
-    }
-    .options a {
-      color: #2a6;
       font-weight: bold;
+      color: #2a6;
       text-decoration: none;
-      font-size: 1.1em;
     }
-    .options a:hover {
+    .card a:hover {
       text-decoration: underline;
     }
-    .footer {
-      text-align: center;
-      font-size: 0.9em;
+    footer {
+      margin-top: 40px;
+      font-size: 0.95em;
       color: #888;
-      margin-top: 30px;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <div class="console">
-    <h1>🧮 Math Console</h1>
-    <p>This console answers your math questions and explains how it got there — using real kid phrasing and Webb City logic.</p>
 
-    <input type="text" id="mathInput" placeholder="Try: mean of 4, 6, 8 or 25% of 80">
-    <button onclick="processMath()">Answer</button>
-    <div class="result" id="resultBox">Your answer will appear here.</div>
+  <header>
+    <h1>GEMS Math Hub</h1>
+    <p>Choose your module or explore tutorials</p>
+  </header>
 
-    <div class="options">
-      <a href="index.html">🧮 Math Console</a>
-      <a href="tutorial.html">📘 Tutorial Page</a>
-      <a href="advanced-math.html">🔮 Advanced Math Console</a>
+  <div class="grid">
+    <div class="card">
+      <div class="circle">🧮</div>
+      <h2>Math Console</h2>
+      <a href="math-console.html">Launch Console</a>
     </div>
 
-    <div class="footer">Built by Archie</div>
+    <div class="card">
+      <div class="circle">📘</div>
+      <h2>Tutorial Page</h2>
+      <a href="tutorial.html">View Tutorials</a>
+    </div>
+
+    <div class="card">
+      <div class="circle">🔮</div>
+      <h2>Advanced Math Console</h2>
+      <a href="advanced-math.html">Explore Advanced</a>
+    </div>
   </div>
 
-  <script>
-    function processMath() {
-      const input = document.getElementById('mathInput').value.trim().toLowerCase();
-      const resultBox = document.getElementById('resultBox');
-      let output = "";
+  <footer>
+    Built by Archie • Webb City Middle School • Mythic tools for real learners
+  </footer>
 
-      try {
-        if (/^[0-9+\-*/().\s%]+$/.test(input)) {
-          const cleaned = input.replace(/%/g, "/100*");
-          const result = eval(cleaned);
-          output = `✅ Answer: ${result}\nExplanation: You entered "${input}". The console replaced "%" with "/100*" and solved using order of operations.`;
-        } else if (input.startsWith("mean of")) {
-          const nums = input.replace("mean of", "").split(",").map(n => parseFloat(n.trim()));
-          const sum = nums.reduce((a, b) => a + b, 0);
-          const mean = sum / nums.length;
-          output = `✅ Mean: ${mean}\nExplanation: Add all numbers (${nums.join(" + ")}) to get ${sum}, then divide by ${nums.length}.`;
-        } else {
-          output = "⚠️ Try a math expression or 'mean of'.";
-        }
-      } catch (err) {
-        output = "⚠️ Error: " + err.message;
-      }
-
-      resultBox.textContent = output;
-    }
-  </script>
 </body>
 </html>
